@@ -10,8 +10,6 @@ fi
 
 output_filename=$(youtube-dl --get-filename -o "%(title)s.mp3" "$youtube_url")
 
-#echo $output_filename
-
 # Download the video and extract audio with youtube-dl
 youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.mp3" $youtube_url
 
