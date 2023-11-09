@@ -16,7 +16,7 @@ from the official website: [https://www.python.org/downloads/](https://www.pytho
 2. Clone the repository: Open a terminal and clone the repository using the following command:
 
    ```
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/otonomee/youtube-ai-stem-separator.git
    ```
 
 3. Install dependencies: Navigate to the project directory and install the required dependencies 
