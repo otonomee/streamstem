@@ -67,7 +67,7 @@ class DemucsProcessor:
             cmd += [f"--two-stems={two_stems}"]
         
         print("Going to separate the file:", filename)
-        
+        print(cmd)
         print("With command: ", " ".join(cmd))
         p = sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE)
         output = copy_process_streams(p)
@@ -75,6 +75,6 @@ class DemucsProcessor:
         if p.returncode != 0:
             print("Command failed, something went wrong.")
 
-        shutil.make_archive('separated', 'zip', 'separated')
+        shutil.make_archive(f"{filename}_separated", 'zip', f"tracks/{filename}")
         
         return output
