@@ -72,6 +72,11 @@ class DemucsProcessor:
             print("Command failed, something went wrong.")
 
         filename_without_ext = os.path.splitext(filename)[0]
-        shutil.make_archive(f"STEMS-{filename_without_ext}", 'zip', f"tracks/htdemucs/{filename_without_ext}")
-        
+        # zip_file_path = f"STEMS-{filename_without_ext}.zip"
+
+        # # Delete the existing .zip file if it exists
+        # if os.path.exists(zip_file_path):
+        #     os.remove(zip_file_path)
+
+        shutil.make_archive(f"STEMS-{filename_without_ext}", 'zip', f"tracks/htdemucs/{filename_without_ext}")        
         return output
