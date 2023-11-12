@@ -2,19 +2,26 @@ document.addEventListener("DOMContentLoaded", () => {
   let submitBtn = document.querySelector("#submitBtn");
   let songTitle = document.querySelector("#songTitle");
 
-  let filetype = document.querySelector("#fileType");
-  let numStems = document.querySelector("#numberOfStems");
+  let filetype = document.querySelector("#fileType").value.split("-")[1];
+  let numStems;
 
   let loadingGif = document.querySelector("#loadingGif");
+  console.log(loadingGif);
 
   submitBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    let url = document.querySelector("#url").value;
+    loadingGif.setAttribute("style", "display:flex;flex-direction:row");
     resetUi();
 
-    loadingGif.style.display = "block";
+    let elInputs = document.querySelectorAll("input");
+    elInputs.forEach(function (el) {
+      if (el.hasAttribute("checked")) {
+        numStems = el.nextElementSibling.innerText[0];
+      }
+    });
 
-    console.log("button clicked");
+    e.preventDefault();
+    let url = document.querySelector("#url").value;
+
     console.log(url);
     fetch("/download_video", {
       method: "POST",
@@ -30,14 +37,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.status == "success") {
           console.log(data);
           let filename = data.filename;
+
+          console.log("filetype", filetype);
+          console.log("filename", filename);
+          console.log("num stems", numStems);
+
           updateUi(filename);
           fetch("/process_audio", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               filename: filename,
-              filetype: filetype.value,
-              numStems: numStems.value[0],
+              filetype: filetype,
+              numStems: numStems,
             }),
           })
             .then((response) => response.json())
@@ -55,8 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .catch((error) => console.error("Error:", error));
         }
-      })
-      .catch((error) => console.error("Error:", error));
+      });
   });
 
   function updateUi(filename) {
