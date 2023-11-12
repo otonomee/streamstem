@@ -19,6 +19,7 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <script src="https://kit.fontawesome.com/c604255e86.js" crossorigin="anonymous"></script>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
@@ -64,11 +65,7 @@
         margin-top: 20px;
       }
 
-      .container-a {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
+      
 
       label {
         font-size: 1.2em;
@@ -118,31 +115,35 @@
           method="POST"
           action="{{ url_for('home') }}"
         >
-          <p style="display: none; padding-top: 15px" id="songTitle"></p>
-          <label for="url">Video URL:</label>
 
-          <input
-            type="text"
-            id="url"
-            name="url"
-            class="form-control"
-            placeholder="Enter URL"
-            required
-          />
+        <div class="top-container">
+        
+
+          <p style="display: none; padding-top: 15px" id="songTitle"></p>
+          
+          <div style="display:flex;flex-direction: column;">
+          <label class="inputLabel" for="url">Video URL</label>
+          <div style="display:flex;flex-direction: row; position:relative;" class="input-container">
+            <span style="color: #00000047; position:absolute; left:10px; top:37%; transform:translateY(-50%);" class="fa fa-link" aria-hidden="true"></span>
+            <input
+                type="text"
+                id="url"
+                name="url"
+                class="my-form-control"
+                placeholder="Enter URL"
+                required
+                style="padding-left:35px;height:47px;">
+        </input>
+        </div>
+      </div>
+      </div>
+
           <div class="container-a">
-            <div id="file-options">
-              <label for="fileType">File Type:</label>
-              <select id="fileType" class="form-select mb-3">
-                <option value="format-mp3">MP3</option>
-                <option value="format-wav">WAV</option>
-                <option value="format-flac">FLAC</option>
-                <option value="format-ogg">Ogg/Vorbis</option>
-              </select>
-            </div>
+            
 
             <div id="stem-options">
-              <label for="numberOfStems"># Stems:</label>
-              <select id="numberOfStems" class="form-select mb-3">
+              <!-- <label class="inputLabel" for="numberOfStems"># Stems</label> -->
+              <!-- <select id="numberOfStems" class="form-select mb-3">
                 <option value="2-stem">2 stems (vocal, instrumental)</option>
                 <option selected="selected" value="4-stem">
                   4 stems (vocal, drums, bass, other)
@@ -150,17 +151,56 @@
                 <option value="6-stem">
                   6 stems (vocal, drums, bass, guitar, piano, other)
                 </option>
-              </select>
+              </select> -->
             </div>
-          </div>
 
+            <div class="form-check">
+              <input class="myFont form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="radio-label myFont form-check-label" for="flexRadioDefault1">
+                2 stems
+              </label>
+            </div>
+            <div class="form-check">
+              <input checked class="myFont form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+              <label class="radio-label myFont form-check-label" for="flexRadioDefault2">
+                4 stems (recommended)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="myFont form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+              <label class="radio-label myFont form-check-label" for="flexRadioDefault2">
+                6 stems (experimental)
+              </label>
+            </div>
+
+           
+
+          </div>
+          <div id="file-options">
+            <!-- <label class="inputLabel" for="fileType">File Type</label> -->
+            
+          </div>
           <div class="btn-container">
+            <select id="fileType" class="form-select mb-3">
+              <option value="format-mp3">MP3</option>
+              <option value="format-wav">WAV</option>
+              <option value="format-flac">FLAC</option>
+              <option value="format-ogg">Ogg/Vorbis</option>
+            </select>
             <button id="submitBtn" type="submit">
               <p class="submitBtnText">Submit</p>
             </button>
           </div>
         </form>
       </div>
+
+      <!-- Spinning Gif -->
+      <img
+        id="loadingGif"
+        src="{{ url_for('static', filename='spinny.gif') }}"
+        alt="Loading..."
+        style="display: none"
+      />
 
       <!-- Progress Bar Section -->
       <div id="progress-container" class="progress-container">
