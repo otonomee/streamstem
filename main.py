@@ -38,7 +38,9 @@ def progress_check(d):
 @app.route('/process_audio', methods=['POST'])
 def process_audio():
     filename = request.json.get('filename')
-    demucs_processor.process_audio(filename)
+    filetype = request.json.get('filetype')
+    num_stems = request.json.get('numStems')   
+    demucs_processor.process_audio(filename, filetype, num_stems)
     # requests.get('http://localhost:5000/download')
     return jsonify({'message': 'Finished', 'filename': str(filename)})
 
@@ -51,18 +53,6 @@ def download():
     # filename = request.json.get('filename')
     # return send_file(f"{filename}.zip", as_attachment=True)
 
-# @app.route('/check_process')
-# def check_process():
-#     if process is None:
-#         return jsonify({'status': 'no process'})
-#     elif process.poll() is None:
-#         return jsonify({'status': 'running'})
-#     else:
-#         return jsonify({'status': 'finished', 'exit_code': process.poll()})
-    
-# @app.route('/download/<path:filename>')
-# def download(filename):
-#     return send_from_directory(directory='separated/htdemucs/', filename=filename, as_attachment=True)
-
+  
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

@@ -7,22 +7,10 @@ import sys
 import shutil
 from typing import Dict, Tuple, Optional, IO
 import requests
+import os
 
 class DemucsProcessor:
-    def process_audio(self, filename):
-
-        # Customize the following options!
-        model = "htdemucs"
-        extensions = ["mp3", "wav", "ogg", "flac"]  # we will look for all those file types.
-        two_stems = None   # only separate one stems from the rest, for instance
-        # two_stems = "vocals"
-
-        # Options for the output audio.
-        mp3 = True
-        mp3_rate = 320
-        float32 = False  # output as float 32 wavs, unsused if 'mp3' is True.
-        int24 = False    # output as int24 wavs, unused if 'mp3' is True.
-        # You cannot set both `float32 = True` and `int24 = True` !!
+    def process_audio(self, filename, filetype, num_stems):
 
         def copy_process_streams(process: sp.Popen):
             output = ""
@@ -53,19 +41,27 @@ class DemucsProcessor:
                     output += buf   # store in string
 
             return output
+        
 
-        
-        
+        model = "htdemucs"
         cmd = ["python3", "-m", "demucs.separate", "-n", model, "-o", "tracks", filename]
-        if mp3:
-            cmd += ["--mp3", f"--mp3-bitrate={mp3_rate}"]
-        if float32:
-            cmd += ["--float32"]
-        if int24:
-            cmd += ["--int24"]
-        if two_stems is not None:
-            cmd += [f"--two-stems={two_stems}"]
-        
+
+        if filetype == 'mp3':
+            cmd += ["--mp3", f"--mp3-bitrate=320"]
+        elif filetype == 'wav':
+            cmd += ["--wav"]
+        elif filetype == 'flac':
+            cmd += ["--flac"]
+        elif filetype == 'ogg':
+            cmd += ["--ogg"]
+        else:
+            print('Filetype error')
+
+        if num_stems == '2':
+            cmd += [f"--two-stems=vocals"]   
+        elif num_stems == '6':
+            model = "htdemucs_6s"
+
         print("Going to separate the file:", filename)
         print(cmd)
         print("With command: ", " ".join(cmd))
@@ -75,6 +71,7 @@ class DemucsProcessor:
         if p.returncode != 0:
             print("Command failed, something went wrong.")
 
-        shutil.make_archive(f"STEMS: {filename.replace('.mp3','')}", 'zip', f"tracks/htdemucs/{filename.replace('.mp3','')}")
+        filename_without_ext = os.path.splitext(filename)[0]
+        shutil.make_archive(f"STEMS-{filename_without_ext}", 'zip', f"tracks/htdemucs/{filename_without_ext}")
         
         return output
