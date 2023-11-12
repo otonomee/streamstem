@@ -1,86 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <link rel="shortcut icon" href="{{ filename='favicon.ico' }}" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <style>
-        body {
-            background: linear-gradient(to bottom right, #4e008e, #82007e);
-            color: white;
-            text-align: center;
-            padding: 50px;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
-        }
-
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #e6007e;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-        }
-
-        button:hover {
-            background-color: #b4005f;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
     <title>YouTube AI Stem Separator</title>
-</head>
-
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1 class="mt-5">YouTube Video To Stems</h1>
-        <form id="myForm" class="mx-auto" method="POST" action="{{ url_for('home') }}">
-            <div class="mb-3">
-                <label for="url" class="form-label">Enter YouTube URL:</label>
-                <input type="text" id="url" name="url" class="form-control" required>
-            </div>
-            <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
+      <h1 class="mt-5">YouTube Video To Stems</h1>
+
+      <div id="options">
+        <label for="processingType">Select Processing Type:</label>
+        <select id="processingType" class="form-select mb-3">
+          <option value="basic">Basic</option>
+          <option value="batch">Batch Processing</option>
+          <option value="custom">Customize Stems</option>
+          <option value="effects">Audio Effects</option>
+        </select>
+      </div>
+
+      <!-- Basic Processing Form -->
+      <div id="basicProcessing" class="processing-options">
+        <form
+          id="myForm"
+          class="mx-auto"
+          method="POST"
+          action="{{ url_for('home') }}"
+        >
+          <div class="cont">
+            <input
+              type="text"
+              id="url"
+              name="url"
+              class="form-control"
+              required
+            />
+            <button id="submitBtn" type="submit" class="btn btn-primary">
+              <p class="btnText">Submit</p>
+            </button>
+          </div>
         </form>
-        <h3></h3>
-        <div id="progress-bar" style="width:0%; height:20px; background-color:green;"></div>
+      </div>
 
-        <!-- Add this div for progress display -->
-        <div id="progress-container" style="display: none;">
-            <p>Processing: <span id="progress-text">0%</span></p>
-            <div class="progress">
-                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
+      <!-- Batch Processing Section -->
+      <div id="batchProcessing" class="processing-options">
+        {% extends "batch-processing.html" %}
+      </div>
+
+      <!-- Customize Stems Section -->
+      <div id="customizeStems" class="processing-options">
+        <!-- Add content specific to stem customization here -->
+        <!-- ... -->
+      </div>
+
+      <!-- Audio Effects Section -->
+      <div id="audioEffects" class="processing-options">
+        <!-- Add content specific to audio effects here -->
+        <!-- ... -->
+      </div>
+
+      <!-- Progress Bar Section -->
+      <div id="progress-container" style="display: none">
+        <p>Processing: <span id="progress-text">0%</span></p>
+        <div class="progress">
+          <div
+            id="progress-bar"
+            class="progress-bar"
+            role="progressbar"
+            style="width: 0%"
+            aria-valuenow="0"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
         </div>
+      </div>
     </div>
-    <script>
-        
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-</body>
+  </body>
 
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/batchProcessing.js') }}"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+  ></script>
 </html>

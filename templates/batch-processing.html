@@ -1,0 +1,26 @@
+{% block content %}
+<h1 class="mt-5">Batch Process</h1>
+<!-- Dynamic Form Section -->
+<div id="dynamicForm" class="processing-options">
+  <form id="urlForm">
+    <!-- Initial input field -->
+    <div class="url-input">
+      <input type="text" name="url1" placeholder="Enter URL" />
+      <button type="button" class="remove-btn" onclick="removeUrlInput(this)">
+        Remove
+      </button>
+    </div>
+
+    <!-- Container for dynamically added input fields -->
+    <div id="urlInputsContainer"></div>
+
+    <!-- Add more input fields button -->
+    <button type="button" class="add-btn" onclick="addUrlInput()">
+      Add URL
+    </button>
+
+    <!-- Submit button -->
+    <button type="button" onclick="submitForm()">Submit</button>
+  </form>
+</div>
+{% endblock %}
