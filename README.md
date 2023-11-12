@@ -1,4 +1,5 @@
- # Web App for YouTube Audio Conversion using Demucs ML Model
+# Web App to Isolate and Save Different "Stem" (e.g. drums, vocals, bass) of Songs from YouTube
+![Uploading Screenshot 2023-11-12 at 9.04.55 AM.png…]()
 
 ## Introduction
 
