@@ -1,28 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
-  let submitBtn = document.querySelector("#submitBtn");
-  let songTitle = document.querySelector("#songTitle");
+  const submitBtn = document.querySelector("#submitBtn");
+  const songTitle = document.querySelector("#songTitle");
+  const loadingGif = document.querySelector("#loadingGif");
 
-  let filetype = document.querySelector("#fileType").value.split("-")[1];
   let numStems;
 
-  let loadingGif = document.querySelector("#loadingGif");
-  console.log(loadingGif);
-
   submitBtn.addEventListener("click", (e) => {
-    loadingGif.setAttribute("style", "display:flex;flex-direction:row");
+    loadingGif.style.display = "flex";
     resetUi();
 
-    let elInputs = document.querySelectorAll("input");
-    elInputs.forEach(function (el) {
+    const filetype = document.querySelector("#fileType").value.split("-")[1];
+    const elInputs = document.querySelectorAll("input");
+
+    elInputs.forEach((el) => {
       if (el.hasAttribute("checked")) {
         numStems = el.nextElementSibling.innerText[0];
       }
     });
 
     e.preventDefault();
-    let url = document.querySelector("#url").value;
+    const url = document.querySelector("#url").value;
 
-    console.log(url);
     fetch("/download_video", {
       method: "POST",
       headers: {
@@ -30,17 +28,13 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       body: JSON.stringify({
         url: url,
+        filetype: filetype,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status == "success") {
-          console.log(data);
-          let filename = data.filename;
-
-          console.log("filetype", filetype);
-          console.log("filename", filename);
-          console.log("num stems", numStems);
+        if (data.status === "success") {
+          const filename = data.filename;
 
           updateUi(filename);
           fetch("/process_audio", {
@@ -54,11 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
           })
             .then((response) => response.json())
             .then((data) => {
-              console.log(data.message); // Should print 'Processing started'
-              // Initiate file download after processing
+              console.log(data.message);
 
               updateUi("Video title:", data.filename.replace(/\.[^/.]+$/, ""));
-              if (data.message == "Finished") {
+              if (data.message === "Finished") {
                 loadingGif.style.display = "none";
                 window.location =
                   "/download?filename=STEMS-" +
@@ -80,25 +73,27 @@ document.addEventListener("DOMContentLoaded", () => {
     songTitle.style.display = "none";
   }
 
-  function listeners() {
-    // Get all the radio buttons
-    var radios = document.querySelectorAll(
-      'input[type=radio][name="flexRadioDefault"]'
-    );
+  function addChangeEventListener(radio) {
+    radio.addEventListener("change", () => {
+      const radios = document.querySelectorAll(
+        'input[type=radio][name="flexRadioDefault"]'
+      );
 
-    // Add a change event listener to each radio button
-    radios.forEach(function (radio) {
-      radio.addEventListener("change", function () {
-        // When a radio button is selected, remove the checked attribute from all radio buttons
-        radios.forEach(function (r) {
-          r.removeAttribute("checked");
-        });
-
-        // Add the checked attribute to the selected radio button
-        this.setAttribute("checked", "");
+      radios.forEach((r) => {
+        r.removeAttribute("checked");
       });
+
+      radio.setAttribute("checked", "");
     });
   }
 
-  listeners();
+  function addChangeListeners() {
+    const radios = document.querySelectorAll(
+      'input[type=radio][name="flexRadioDefault"]'
+    );
+
+    radios.forEach(addChangeEventListener);
+  }
+
+  addChangeListeners();
 });
