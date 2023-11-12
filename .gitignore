@@ -2,3 +2,5 @@
 songs-ran/*
 separated/*
 cookies.txt
+myenv
+__pycache__
