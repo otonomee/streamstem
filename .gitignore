@@ -4,3 +4,6 @@ separated/*
 cookies.txt
 myenv
 __pycache__
+tracks
+*.zip
+*.mp3
