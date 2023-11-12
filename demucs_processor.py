@@ -6,14 +6,14 @@ import subprocess as sp
 import sys
 import shutil
 from typing import Dict, Tuple, Optional, IO
-import requests
+import requests                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 import os
 
 class DemucsProcessor:
     def process_audio(self, filename, filetype, num_stems):
 
         def copy_process_streams(process: sp.Popen):
-            output = ""
+            output = ""                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
             def raw(stream: Optional[IO[bytes]]) -> IO[bytes]:
                 assert stream is not None
@@ -44,6 +44,11 @@ class DemucsProcessor:
         
 
         model = "htdemucs"
+
+        
+        if num_stems == '6':
+            model = "htdemucs_6s"
+
         cmd = ["python3", "-m", "demucs.separate", "-n", model, "-o", "tracks", filename]
 
         if filetype == 'mp3':
@@ -53,14 +58,12 @@ class DemucsProcessor:
         elif filetype == 'flac':
             cmd += ["--flac"]
         elif filetype == 'ogg':
-            cmd += ["--ogg"]
-        else:
+            cmd += [    "--ogg"]
+        else        :
             print('Filetype error')
 
         if num_stems == '2':
-            cmd += [f"--two-stems=vocals"]   
-        elif num_stems == '6':
-            model = "htdemucs_6s"
+            cmd += [f"--two-stems", f"vocals"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 
         print("Going to separate the file:", filename)
         print(cmd)
@@ -78,5 +81,12 @@ class DemucsProcessor:
         # if os.path.exists(zip_file_path):
         #     os.remove(zip_file_path)
 
-        shutil.make_archive(f"STEMS-{filename_without_ext}", 'zip', f"tracks/htdemucs/{filename_without_ext}")        
+        output_dir = f"tracks/htdemucs/{filename_without_ext}"
+        if model == "htdemucs_6s":
+            output_dir = f"tracks/htdemucs_6s/{filename_without_ext}"
+
+        # Create the directory if it doesn't exist
+        os.makedirs(output_dir, exist_ok=True)
+
+        shutil.make_archive(f"STEMS-{filename_without_ext}", 'zip', output_dir)        
         return output
