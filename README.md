@@ -1,5 +1,5 @@
 # Web App to Isolate and Save Different "Stem" (e.g. drums, vocals, bass) of Songs from YouTube
-
+![alt text](static/landing.png)
 ## Introduction
 
 This web application allows you to convert the audio from a YouTube video to separated stems using 
