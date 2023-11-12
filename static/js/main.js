@@ -79,4 +79,26 @@ document.addEventListener("DOMContentLoaded", () => {
     songTitle.innerHTML = "";
     songTitle.style.display = "none";
   }
+
+  function listeners() {
+    // Get all the radio buttons
+    var radios = document.querySelectorAll(
+      'input[type=radio][name="flexRadioDefault"]'
+    );
+
+    // Add a change event listener to each radio button
+    radios.forEach(function (radio) {
+      radio.addEventListener("change", function () {
+        // When a radio button is selected, remove the checked attribute from all radio buttons
+        radios.forEach(function (r) {
+          r.removeAttribute("checked");
+        });
+
+        // Add the checked attribute to the selected radio button
+        this.setAttribute("checked", "");
+      });
+    });
+  }
+
+  listeners();
 });

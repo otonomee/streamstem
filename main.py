@@ -6,6 +6,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from queue import Queue
 from threading import Thread
+import os
+import glob
 
 from downloader import Downloader
 import subprocess
@@ -44,15 +46,22 @@ def process_audio():
     # requests.get('http://localhost:5000/download')
     return jsonify({'message': 'Finished', 'filename': str(filename)})
 
-
 @app.route('/download', methods=['POST', 'GET'])
 def download():
     filename = request.args.get('filename')
-    return send_file(f"{filename}.zip", as_attachment=True)
+    response = send_file(f"{filename}.zip", as_attachment=True)
 
-    # filename = request.json.get('filename')
-    # return send_file(f"{filename}.zip", as_attachment=True)
+    # Delete the .zip file after sending it
+    if os.path.exists(f"{filename}.zip"):
+        os.remove(f"{filename}.zip")
 
+    # Delete any .mp3 or .wav files
+    for file in glob.glob("*.mp3"):
+        os.remove(file)
+    for file in glob.glob("*.wav"):
+        os.remove(file)
+
+    return response
   
 if __name__ == "__main__":
     app.run(debug=True, port=5000, use_reloader=False)
