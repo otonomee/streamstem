@@ -16,7 +16,7 @@ global filename
 # downloader = Downloader()
 demucs_processor = DemucsProcessor()
 downloader = Downloader()
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['POST', 'GET'])
 def home():        
     return render_template('index.html')
 
@@ -40,12 +40,16 @@ def process_audio():
     filename = request.json.get('filename')
     demucs_processor.process_audio(filename)
     # requests.get('http://localhost:5000/download')
-    return jsonify({'message': 'Finished'})
+    return jsonify({'message': 'Finished', 'filename': str(filename)})
 
 
-@app.route('/download', methods=['GET'])
+@app.route('/download', methods=['POST', 'GET'])
 def download():
+    filename = request.args.get('filename')
     return send_file(f"{filename}.zip", as_attachment=True)
+
+    # filename = request.json.get('filename')
+    # return send_file(f"{filename}.zip", as_attachment=True)
 
 # @app.route('/check_process')
 # def check_process():
@@ -61,4 +65,4 @@ def download():
 #     return send_from_directory(directory='separated/htdemucs/', filename=filename, as_attachment=True)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5000)
