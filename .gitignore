@@ -7,3 +7,5 @@ __pycache__
 tracks
 *.zip
 *.mp3
+tracks/htdemucs/*
+tracks/htdemucs_6s/*

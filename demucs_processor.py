@@ -1,20 +1,16 @@
 import io
-from pathlib import Path
 import select
-from shutil import rmtree
 import subprocess as sp
 import sys
 import shutil
 from typing import Dict, Tuple, Optional, IO
-import requests                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 import os
 
 class DemucsProcessor:
     def process_audio(self, filename, filetype, num_stems):
-
         def copy_process_streams(process: sp.Popen):
-            output = ""                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-
+            output = ""
+            
             def raw(stream: Optional[IO[bytes]]) -> IO[bytes]:
                 assert stream is not None
                 if isinstance(stream, io.BufferedIOBase):
@@ -41,31 +37,24 @@ class DemucsProcessor:
                     output += buf   # store in string
 
             return output
-        
 
         model = "htdemucs"
-
-        
         if num_stems == '6':
             model = "htdemucs_6s"
 
-        cmd = ["python3", "-m", "demucs.separate", "-n", model, "-o", "tracks", filename]
+        cmd = ["python3", "-m", "demucs.separate", "-n", model, "-o", "tracks", f"{filename}.{filetype}"]
 
         if filetype == 'mp3':
-            cmd += ["--mp3", f"--mp3-bitrate=320"]
-        elif filetype == 'wav':
-            cmd += ["--wav"]
+            cmd += ["--mp3", "--mp3-bitrate=320"]
         elif filetype == 'flac':
             cmd += ["--flac"]
-        elif filetype == 'ogg':
-            cmd += [    "--ogg"]
-        else        :
+        else:
             print('Filetype error')
 
         if num_stems == '2':
-            cmd += [f"--two-stems", f"vocals"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+            cmd += ["--two-stems", "vocals"]
 
-        print("Going to separate the file:", filename)
+        print("Going to separate the file:", f"{filename}.{filetype}")
         print(cmd)
         print("With command: ", " ".join(cmd))
         p = sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE)
@@ -75,11 +64,6 @@ class DemucsProcessor:
             print("Command failed, something went wrong.")
 
         filename_without_ext = os.path.splitext(filename)[0]
-        # zip_file_path = f"STEMS-{filename_without_ext}.zip"
-
-        # # Delete the existing .zip file if it exists
-        # if os.path.exists(zip_file_path):
-        #     os.remove(zip_file_path)
 
         output_dir = f"tracks/htdemucs/{filename_without_ext}"
         if model == "htdemucs_6s":
@@ -88,5 +72,14 @@ class DemucsProcessor:
         # Create the directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
 
-        shutil.make_archive(f"STEMS-{filename_without_ext}", 'zip', output_dir)        
+        shutil.make_archive(f"STEMS-{filename_without_ext}", 'zip', output_dir)
+
+        # Delete the directory
+        shutil.rmtree('tracks/htdemucs', ignore_errors=True)
+        shutil.rmtree('tracks/htdemucs_6s', ignore_errors=True)
+
+        # Recreate the directories
+        os.makedirs('tracks/htdemucs', exist_ok=True)
+        os.makedirs('tracks/htdemucs_6s', exist_ok=True)
+
         return output
