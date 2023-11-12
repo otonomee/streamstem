@@ -5,10 +5,19 @@ body {
 }
 
 body {
-  background: linear-gradient(to bottom right, #4e008e, #82007e);
-  color: white;
+  font-family: "Poppins", sans-serif;
+  background: url("/static/background-image.jpg");
   text-align: center;
   padding: 50px;
+  color: #dbe5c9;
+}
+
+.center-content {
+  background: rgba(0, 0, 0, 0.5);
+  width: 82%;
+  margin: 0 auto;
+  padding: 75px;
+  height: 100%;
 }
 
 h1 {
@@ -34,7 +43,7 @@ input {
   height: 45px;
 }
 
-.cont {
+.container {
   display: inline-flex;
 }
 
@@ -44,10 +53,11 @@ input {
   border: 2px solid;
   padding: 1em 2em;
   font-size: 1em;
+  border-radius: 3px;
 }
 #submitBtn {
   background: none;
-  color: #ffa260;
+  color: #ffa630;
   border: 2px solid;
   padding: 1em 2em;
   font-size: 1em;
@@ -58,6 +68,9 @@ input {
   margin-left: 50px;
 }
 
+.submitBtnText {
+  margin-top: -7px;
+}
 #submitBtn:hover {
   border-color: #f1ff5c;
   color: white;

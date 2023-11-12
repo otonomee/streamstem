@@ -75,6 +75,6 @@ class DemucsProcessor:
         if p.returncode != 0:
             print("Command failed, something went wrong.")
 
-        shutil.make_archive(f"{filename}_separated", 'zip', f"tracks/{filename}")
+        shutil.make_archive(f"STEMS: {filename.replace('.mp3','')}", 'zip', f"tracks/htdemucs/{filename.replace('.mp3','')}")
         
         return output
