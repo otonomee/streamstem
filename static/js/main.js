@@ -2,6 +2,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const submitBtn = document.querySelector("#submitBtn");
   const songTitle = document.querySelector("#songTitle");
   const loadingGif = document.querySelector("#loadingGif");
+  const urlInput = document.querySelector(".my-form-control");
+
+  // JavaScript
+  submitBtn.addEventListener("mouseover", function () {
+    document.querySelector(".hoverLine").style.width = "55%";
+  });
+
+  submitBtn.addEventListener("mouseout", function () {
+    document.querySelector(".hoverLine").style.width = "0";
+  });
+
+  urlInput.focus();
+  urlInput.click();
 
   let numStems;
 
@@ -64,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function updateUi(filename) {
-    songTitle.innerHTML = filename;
+    songTitle.innerHTML = `Song name: ${filename}`;
     songTitle.style.display = "block";
   }
 

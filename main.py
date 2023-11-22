@@ -1,6 +1,7 @@
 from flask import Response, jsonify, Flask, send_file, request, render_template
 from downloader import Downloader
 from demucs_processor import DemucsProcessor
+from url_conversion import UrlConverter
 import os
 import glob
 
@@ -10,6 +11,7 @@ global filename
 # downloader = Downloader()
 demucs_processor = DemucsProcessor()
 downloader = Downloader()
+url_converter = UrlConverter()
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -18,10 +20,11 @@ def home():
 @app.route('/download_video', methods=['POST'])
 def download_audio():
     if request.method == 'POST':
-        youtube_url = request.json.get('url')
+        url = request.json.get('url')
+        url = url_converter.convert_to_youtube_url(url)
         filetype = request.json.get('filetype')
-        if youtube_url:
-            filename = downloader.download_video(youtube_url, filetype)
+        if url:
+            filename = downloader.download_video(url, filetype)
             print('filename', filename)
     return jsonify({'status': 'success', 'filename': str(filename)})
 
@@ -54,6 +57,16 @@ def download():
         os.remove(file)
 
     return response
+
+# login page
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    return render_template('login.html')
+
+#register page
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    return render_template('register.html')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000, use_reloader=False)

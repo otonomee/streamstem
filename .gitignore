@@ -9,3 +9,4 @@ tracks
 *.mp3
 tracks/htdemucs/*
 tracks/htdemucs_6s/*
+api_token.json
