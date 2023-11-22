@@ -10,3 +10,5 @@ tracks
 tracks/htdemucs/*
 tracks/htdemucs_6s/*
 api_token.json
+templates/login.html 
+templates/register.html
