@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon_io/favicon.ico') }}" />
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -15,7 +15,7 @@
     crossorigin="anonymous" />
   <script src="https://kit.fontawesome.com/c604255e86.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <title>YouTube AI Stem Separator</title>
+  <title>Extract Song Stems From Youtube or Spotify</title>
   <style>
     body {
       background-size: cover;
@@ -91,20 +91,20 @@
 
 <body>
   <div class="center-content">
-    <h1 class="mt-5">YouTube Audio Separator</h1>
+    <h1 class="mt-5">Extract Song Stems From Youtube or Spotify</h1>
 
     <!-- Basic Processing Form -->
     <div id="basicProcessing" class="processing-options">
       <form id="myForm" class="mx-auto" method="POST" action="{{ url_for('home') }}">
         <div class="top-container">
-          <p style="display: none; padding-top: 15px" id="songTitle"></p>
+          <p style="display: none; padding-top: 15px;font-size:1.1rem;" id="songTitle"></p>
           <div style="display:flex;flex-direction: column;">
-            <label class="inputLabel" for="url">Video URL</label>
+            <label class="inputLabel" for="url">Paste link:</label>
             <div style="display:flex;flex-direction: row; position:relative;" class="input-container">
               <span style="color: #00000047; position:absolute; left:10px; top:37%; transform:translateY(-50%);"
                 class="fa fa-link" aria-hidden="true"></span>
-              <input type="text" id="url" name="url" class="my-form-control" placeholder="Enter URL" required
-                style="padding-left:35px;height:47px;"></input>
+              <input type="text" id="url" name="url" class="my-form-control" placeholder="Spotify or YouTube URL:" required
+                style="padding-left:42px;height:47px;"></input>
             </div>
           </div>
         </div>
@@ -143,7 +143,9 @@
           </select>
           <button id="submitBtn" type="submit">
             <p class="submitBtnText">Submit</p>
+            
           </button>
+          <span class="hoverLine"></span>
         </div>
       </form>
     </div>
