@@ -1,9 +1,13 @@
-# youtube-ai-stem-separator
-## Extract the "stems" (e.g. drums, vocals, bass) from any song on Youtube into separate audio files
+# spotify-youtube-stem-separator
+## Extract the "stems" (e.g. drums, vocals, bass) from any song on Spotify or Youtube into separate audio files
 
 ## Introduction
 
-This is a Flask app using the [Demucs ML model](https://github.com/facebookresearch/demucs) music source separation models. It also integrates the youtube-dl package to first extract the audio from the YouTube videos before passing them into demucs.
+This is a Flask web app using the following resources:
+- [Demucs ML model](https://github.com/facebookresearch/demucs): Demucs is an music source separation model that creates the stems
+- [Soundiiz API](https://soundiiz.com/api): Converts Spotify URLs to Youtube URLs 
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp): Extracts the audio from the YouTube videos before passing them into demucs.
+
 
 ## Screenshot
 ![alt text](static/landing.png)
