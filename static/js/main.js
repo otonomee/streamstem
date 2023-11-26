@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const songTitle = document.querySelector("#songTitle");
   const loadingGif = document.querySelector("#loadingGif");
   const urlInput = document.querySelector(".my-form-control");
+  const statusMsgCotainer = document.querySelector(".status-message-container");
 
   // JavaScript
   submitBtn.addEventListener("mouseover", function () {
@@ -16,19 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
   urlInput.focus();
   urlInput.click();
 
-  let radioBtns = document.querySelectorAll(".form-check");
-  radioBtns.forEach((btn) => {
-    btn.addEventListener("hover", () => {
-      // Display a popup tooltip explaining the number of stems
-      console.log(btn);
-    });
-  });
-
-  let numStems;
-
   submitBtn.addEventListener("click", (e) => {
-    loadingGif.style.display = "flex";
-    resetUi();
+    statusMsgCotainer.style.display = "block";
+
+    addMessage("Gathering song information...");
 
     const filetype = document.querySelector("#fileType").value.split("-")[1];
     const elInputs = document.querySelectorAll("input");
@@ -56,8 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((data) => {
         if (data.status === "success") {
           const filename = data.filename;
+          showStepCompletion();
+          addMessage("Separating stems...");
+          showSongName(filename);
 
-          updateUi(filename);
           fetch("/process_audio", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -69,21 +63,14 @@ document.addEventListener("DOMContentLoaded", () => {
           })
             .then((response) => response.json())
             .then((data) => {
-              console.log(data.message);
-
-              updateUi("Video title:", data.filename.replace(/\.[^/.]+$/, ""));
               if (data.message === "Finished") {
-                loadingGif.style.display = "none";
-
                 displayAudioFiles(data.filename);
-                // window.location =
-                //   "/download?filename=STEMS-" +
-                //   encodeURIComponent(data.filename.replace(/\.[^/.]+$/, ""));
               }
             })
             .catch((error) => console.error("Error:", error));
         }
       });
+
     function displayAudioFiles(songName) {
       let directory = numStems == 6 ? "htdemucs_6s" : "htdemucs";
       // Fetch the list of audio files from the server
@@ -109,6 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
             audioContainer.appendChild(audio);
             audioContainer.innerHTML += `<i id="download-icon" class="download-icon fa fa-download" aria-hidden="true"></i>`;
             container.appendChild(audioContainer);
+
+            let btnDownloadZip = document.createElement("button");
+            btnDownloadZip.className = "btn btn-primary btn-download-zip";
+            btnDownloadZip.innerHTML = "Download all stems";
+            btnDownloadZip.addEventListener("click", downloadZip);
           });
           let downloadIcons = document.querySelectorAll("#download-icon");
           downloadIcons.forEach((icon) => {
@@ -121,14 +113,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function updateUi(filename) {
-    songTitle.innerHTML = `Song name: ${filename}`;
+  function showStepCompletion() {
+    let currentSpinney = document.querySelector(".spinnyGif:last-of-type");
+    currentSpinney.src = "/static/success.svg"; // Update the src of the last spinney
+    currentSpinney.nextElementSibling.innerHTML += "DONE";
+  }
+
+  function showSongName(filename) {
+    songTitle.innerHTML = filename;
     songTitle.style.display = "block";
   }
 
-  function resetUi() {
-    songTitle.innerHTML = "";
-    songTitle.style.display = "none";
+  function addMessage(message) {
+    let elSpinney = document.createElement("img");
+    elSpinney.src = "/static/spinny.gif";
+    elSpinney.className = "spinnyGif";
+    let elMessage = document.createElement("span");
+    elMessage.className = "status-message";
+    elMessage.innerHTML = message;
+    statusMsgCotainer.appendChild(elSpinney);
+    statusMsgCotainer.appendChild(elMessage);
+  }
+
+  function downloadZip() {
+    window.location = "/download?filename=STEMS-" + encodeURIComponent(data.filename.replace(/\.[^/.]+$/, ""));
   }
 
   function addChangeEventListener(radio) {
@@ -143,11 +151,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function addChangeListeners() {
-    const radios = document.querySelectorAll('input[type=radio][name="flexRadioDefault"]');
+  // function addChangeListeners() {
+  //   const radios = document.querySelectorAll('input[type=radio][name="flexRadioDefault"]');
 
-    radios.forEach(addChangeEventListener);
-  }
+  //   radios.forEach(addChangeEventListener);
+  // }
 
-  addChangeListeners();
+  // addChangeListeners();
 });

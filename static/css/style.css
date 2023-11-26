@@ -95,7 +95,6 @@ input {
   text-align: left;
   font-style: italic;
   height: 40px;
-  padding-left: 31px;
 }
 
 .form-control:focus {
@@ -217,7 +216,7 @@ select#fileType:hover {
   border-radius: 10px;
   padding: 30px 40px;
   position: relative;
-  width: 77%;
+  width: fit-content;
 }
 
 .link-icon {
@@ -228,10 +227,13 @@ select#fileType:hover {
   transform: translateY(-50%);
   height: 5px;
   width: 5px;
+  /* margin-right: 10px; */
 }
 
 .container-a {
   display: flex;
+  justify-content: center;
+  margin-top: 18px;
 }
 
 .form-check {
@@ -239,7 +241,7 @@ select#fileType:hover {
 }
 
 .form-check-input {
-  /* transform: scale(0.7); */
+  /* transform: scale(1); */
   /* cursor: pointer; */
   /* width: 5px; */
 }
@@ -250,10 +252,12 @@ select#fileType:hover {
 }
 
 .radio-label {
-  font-size: 18px;
+  font-size: 19px;
   padding-left: 15px;
   padding-top: 8px;
   color: #ebedff;
+  transform: scale(0.8);
+  text-wrap: nowrap;
 }
 
 * {
@@ -331,4 +335,10 @@ svg {
 
 .stem-player {
   width: 100%;
+}
+
+.spinnyGif {
+  height: 25px;
+  margin-right: 15px;
+  margin-top: 12px;
 }
