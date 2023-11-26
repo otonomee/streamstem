@@ -6,11 +6,12 @@ import shutil
 from typing import Dict, Tuple, Optional, IO
 import os
 
+
 class DemucsProcessor:
     def process_audio(self, filename, filetype, num_stems):
         def copy_process_streams(process: sp.Popen):
             output = ""
-            
+
             def raw(stream: Optional[IO[bytes]]) -> IO[bytes]:
                 assert stream is not None
                 if isinstance(stream, io.BufferedIOBase):
@@ -28,30 +29,39 @@ class DemucsProcessor:
                 ready, _, _ = select.select(fds, [], [])
                 for fd in ready:
                     p_stream, std = stream_by_fd[fd]
-                    raw_buf = p_stream.read(2 ** 16)
+                    raw_buf = p_stream.read(2**16)
                     if not raw_buf:
                         fds.remove(fd)
                         continue
                     buf = raw_buf.decode()
                     std.write(buf)  # write to server terminal
-                    output += buf   # store in string
+                    output += buf  # store in string
 
             return output
 
         model = "htdemucs"
-        if num_stems == '6':
+        if num_stems == "6":
             model = "htdemucs_6s"
 
-        cmd = ["python3", "-m", "demucs.separate", "-n", model, "-o", "tracks", f"{filename}.{filetype}"]
+        cmd = [
+            "python3",
+            "-m",
+            "demucs.separate",
+            "-n",
+            model,
+            "-o",
+            "tracks",
+            f"{filename}.{filetype}",
+        ]
 
-        if filetype == 'mp3':
+        if filetype == "mp3":
             cmd += ["--mp3", "--mp3-bitrate=320"]
-        elif filetype == 'flac':
+        elif filetype == "flac":
             cmd += ["--flac"]
         else:
-            print('Filetype error')
+            print("Filetype error")
 
-        if num_stems == '2':
+        if num_stems == "2":
             cmd += ["--two-stems", "vocals"]
 
         print("Going to separate the file:", f"{filename}.{filetype}")
@@ -72,14 +82,14 @@ class DemucsProcessor:
         # Create the directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
 
-        shutil.make_archive(f"STEMS-{filename_without_ext}", 'zip', output_dir)
+        shutil.make_archive(f"STEMS-{filename_without_ext}", "zip", output_dir)
 
-        # Delete the directory
-        shutil.rmtree('tracks/htdemucs', ignore_errors=True)
-        shutil.rmtree('tracks/htdemucs_6s', ignore_errors=True)
+        # # Delete the directory
+        # shutil.rmtree('tracks/htdemucs', ignore_errors=True)
+        # shutil.rmtree('tracks/htdemucs_6s', ignore_errors=True)
 
-        # Recreate the directories
-        os.makedirs('tracks/htdemucs', exist_ok=True)
-        os.makedirs('tracks/htdemucs_6s', exist_ok=True)
+        # # Recreate the directories
+        # os.makedirs('tracks/htdemucs', exist_ok=True)
+        # os.makedirs('tracks/htdemucs_6s', exist_ok=True)
 
         return output
