@@ -71,7 +71,7 @@ def process_audio():
 @app.route("/download", methods=["POST", "GET"])
 def download():
     filename = request.args.get("filename")
-    response = send_file(f"{filename}.zip", as_attachment=True)
+    response = send_file(f"{filename}", as_attachment=True)
 
     # Delete the .zip file after sending it
     if os.path.exists(f"{filename}.zip"):
@@ -90,10 +90,7 @@ def download():
 
 @app.route("/tracks/<stem_type>/<path:songname>", methods=["GET"])
 def serve_audio(stem_type, songname):
-    print("stem type", stem_type)
-    print("songname", songname)
     directory = f"tracks/{stem_type}/{songname}"
-
     files = os.listdir(directory)
     return jsonify(files)
 

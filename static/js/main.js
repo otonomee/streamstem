@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".hoverLine").style.width = "0";
   });
 
-  // urlInput.focus();
+  urlInput.focus();
   urlInput.click();
 
   let radioBtns = document.querySelectorAll(".form-check");
@@ -91,8 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((files) => {
           let container = document.createElement("div");
+          let centerContent = document.querySelector(".center-content");
           container.className = "stems-container";
-          document.body.appendChild(container);
+          centerContent.appendChild(container);
           files.forEach((filename) => {
             var audioContainer = document.createElement("div");
             var audio = document.createElement("audio");
