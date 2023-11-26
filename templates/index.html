@@ -17,93 +17,28 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <title>Extract Song Stems From Youtube or Spotify</title>
   <style>
-    body {
-      background-size: cover;
-      margin: 0;
-      padding: 0;
-    }
-
-    body::after {
-      content: "";
-      background: rgba(0, 0, 0, 0.7);
-      /* Adjust the last value for opacity (0.5 for 50%) */
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    .main-container {
-      text-align: center;
-      padding: 50px;
-      background-color: rgba(255, 255, 255, 0.9);
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-    }
-
-    h1 {
-      font-size: 3.5em;
-      margin-bottom: 30px;
-    }
-
-    .processing-options {
-      margin-top: 20px;
-    }
-
-    label {
-      font-size: 1.2em;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 15px;
-      box-sizing: border-box;
-      height: 55px;
-      font-size: 1.1em;
-      border: 2px solid #007bff;
-      border-radius: 8px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
-
-    .form-control:focus {
-      border-color: #0056b3;
-    }
-
-    .btn-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-
-    .progress-container {
-      margin-top: 20px;
-      display: none;
-    }
-
-    .progress-bar {
-      background-color: #007bff;
-    }
+    
   </style>
 </head>
 
 <body>
   <div class="center-content">
-    <h1 class="mt-5">Extract Song Stems From Youtube or Spotify</h1>
+    <h1 class="mt-2 page-header">Extract Song Stems From Youtube or Spotify</h1>
 
     <!-- Basic Processing Form -->
     <div id="basicProcessing" class="processing-options">
-      <form id="myForm" class="mx-auto" method="POST" action="{{ url_for('home') }}">
+      <form id="myForm" class="mx-auto main-form" method="POST" action="{{ url_for('home') }}">
+        <p style="display: none; padding-top: 15px;font-size:1.1rem;" id="songTitle"></p>
+       <label class="inputLabel" for="url">YouTube or Spotify Link
+            </label>
         <div class="top-container">
-          <p style="display: none; padding-top: 15px;font-size:1.1rem;" id="songTitle"></p>
+          
+          
           <div style="display:flex;flex-direction: column;">
-            <label class="inputLabel" for="url">Paste link:</label>
+            
             <div style="display:flex;flex-direction: row; position:relative;" class="input-container">
-              <span style="color: #00000047; position:absolute; left:10px; top:37%; transform:translateY(-50%);"
-                class="fa fa-link" aria-hidden="true"></span>
-              <input type="text" id="url" name="url" class="my-form-control" placeholder="Spotify or YouTube URL:" required
+              <span class="fa fa-link link-icon" aria-hidden="true"></span>
+              <input type="text" id="url" name="url" class="my-form-control" placeholder="URL" required
                 style="padding-left:42px;height:47px;"></input>
             </div>
           </div>
@@ -114,23 +49,38 @@
           </div>
 
           <div class="form-check">
-            <input class="myFont form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-            <label class="radio-label myFont form-check-label" for="flexRadioDefault1">
-              2 stems
+            <input class="radio-button myFont form-check-input" type="radio" name="flexRadioDefault" >
+            <label class="radio-label myFont" for="flexRadioDefault1">
+              2 STEM
             </label>
           </div>
+          <div class="tooltip" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" width="16" height="16">
+		<path d="M7.476 10.372v-.235c0-.24.014-.459.044-.654.034-.194.091-.376.171-.546a2.4 2.4 0 0 1 .337-.495 4.38 4.38 0 0 1 .527-.514c.203-.173.376-.33.52-.47a2.45 2.45 0 0 0 .35-.43c.092-.149.16-.306.202-.47.047-.17.07-.367.07-.59 0-.204-.031-.388-.095-.553a1.154 1.154 0 0 0-.28-.432 1.133 1.133 0 0 0-.45-.28 1.743 1.743 0 0 0-.622-.1 3.04 3.04 0 0 0-1.003.164c-.317.11-.624.237-.92.38l-.4-.92a6.695 6.695 0 0 1 1.11-.45 3.97 3.97 0 0 1 1.213-.19c.394 0 .747.054 1.06.164.317.106.586.26.806.464.22.203.39.453.508.75.118.291.178.621.178.99 0 .283-.03.537-.09.761-.054.22-.139.425-.253.616-.114.19-.256.374-.425.552-.17.178-.368.366-.597.565-.22.19-.4.357-.54.501a2.1 2.1 0 0 0-.33.413c-.08.13-.135.266-.165.406s-.044.303-.044.49v.113h-.882Zm-.305 1.923c0-.16.021-.296.063-.406a.702.702 0 0 1 .172-.273.602.602 0 0 1 .254-.152.959.959 0 0 1 .317-.05c.11 0 .214.016.311.05.102.03.188.08.26.152.072.068.13.159.172.273.042.11.063.246.063.406 0 .157-.02.292-.063.407a.77.77 0 0 1-.172.273.656.656 0 0 1-.26.158.939.939 0 0 1-.31.051.959.959 0 0 1-.318-.05.663.663 0 0 1-.254-.16.77.77 0 0 1-.172-.272 1.17 1.17 0 0 1-.063-.407Z" fill="#008542" />
+		<circle cx="8" cy="8" r="7.5" stroke="#008542" />
+	</svg><span class="tooltip-text">Vocals + Instrumental</span></div>
+
           <div class="form-check">
-            <input class="myFont form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <input class="radio-button myFont form-check-input" type="radio" name="flexRadioDefault"  checked>
             <label class="radio-label myFont form-check-label" for="flexRadioDefault2">
-              4 stems (recommended)
+              4 STEM
             </label>
           </div>
+          <div class="tooltip" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" width="16" height="16">
+		<path d="M7.476 10.372v-.235c0-.24.014-.459.044-.654.034-.194.091-.376.171-.546a2.4 2.4 0 0 1 .337-.495 4.38 4.38 0 0 1 .527-.514c.203-.173.376-.33.52-.47a2.45 2.45 0 0 0 .35-.43c.092-.149.16-.306.202-.47.047-.17.07-.367.07-.59 0-.204-.031-.388-.095-.553a1.154 1.154 0 0 0-.28-.432 1.133 1.133 0 0 0-.45-.28 1.743 1.743 0 0 0-.622-.1 3.04 3.04 0 0 0-1.003.164c-.317.11-.624.237-.92.38l-.4-.92a6.695 6.695 0 0 1 1.11-.45 3.97 3.97 0 0 1 1.213-.19c.394 0 .747.054 1.06.164.317.106.586.26.806.464.22.203.39.453.508.75.118.291.178.621.178.99 0 .283-.03.537-.09.761-.054.22-.139.425-.253.616-.114.19-.256.374-.425.552-.17.178-.368.366-.597.565-.22.19-.4.357-.54.501a2.1 2.1 0 0 0-.33.413c-.08.13-.135.266-.165.406s-.044.303-.044.49v.113h-.882Zm-.305 1.923c0-.16.021-.296.063-.406a.702.702 0 0 1 .172-.273.602.602 0 0 1 .254-.152.959.959 0 0 1 .317-.05c.11 0 .214.016.311.05.102.03.188.08.26.152.072.068.13.159.172.273.042.11.063.246.063.406 0 .157-.02.292-.063.407a.77.77 0 0 1-.172.273.656.656 0 0 1-.26.158.939.939 0 0 1-.31.051.959.959 0 0 1-.318-.05.663.663 0 0 1-.254-.16.77.77 0 0 1-.172-.272 1.17 1.17 0 0 1-.063-.407Z" fill="#008542" />
+		<circle cx="8" cy="8" r="7.5" stroke="#008542" />
+	</svg><span class="tooltip-text">Vocals + Drums + Bass + Other</span></div>
+
           <div class="form-check">
-            <input class="myFont form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+            <input class="radio-button myFont form-check-input" type="radio" name="flexRadioDefault" >
             <label class="radio-label myFont form-check-label" for="flexRadioDefault2">
-              6 stems (experimental)
+              6 STEM
             </label>
           </div>
+          <div class="tooltip" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" width="16" height="16">
+		<path d="M7.476 10.372v-.235c0-.24.014-.459.044-.654.034-.194.091-.376.171-.546a2.4 2.4 0 0 1 .337-.495 4.38 4.38 0 0 1 .527-.514c.203-.173.376-.33.52-.47a2.45 2.45 0 0 0 .35-.43c.092-.149.16-.306.202-.47.047-.17.07-.367.07-.59 0-.204-.031-.388-.095-.553a1.154 1.154 0 0 0-.28-.432 1.133 1.133 0 0 0-.45-.28 1.743 1.743 0 0 0-.622-.1 3.04 3.04 0 0 0-1.003.164c-.317.11-.624.237-.92.38l-.4-.92a6.695 6.695 0 0 1 1.11-.45 3.97 3.97 0 0 1 1.213-.19c.394 0 .747.054 1.06.164.317.106.586.26.806.464.22.203.39.453.508.75.118.291.178.621.178.99 0 .283-.03.537-.09.761-.054.22-.139.425-.253.616-.114.19-.256.374-.425.552-.17.178-.368.366-.597.565-.22.19-.4.357-.54.501a2.1 2.1 0 0 0-.33.413c-.08.13-.135.266-.165.406s-.044.303-.044.49v.113h-.882Zm-.305 1.923c0-.16.021-.296.063-.406a.702.702 0 0 1 .172-.273.602.602 0 0 1 .254-.152.959.959 0 0 1 .317-.05c.11 0 .214.016.311.05.102.03.188.08.26.152.072.068.13.159.172.273.042.11.063.246.063.406 0 .157-.02.292-.063.407a.77.77 0 0 1-.172.273.656.656 0 0 1-.26.158.939.939 0 0 1-.31.051.959.959 0 0 1-.318-.05.663.663 0 0 1-.254-.16.77.77 0 0 1-.172-.272 1.17 1.17 0 0 1-.063-.407Z" fill="#008542" />
+		<circle cx="8" cy="8" r="7.5" stroke="#008542" />
+	</svg><span class="tooltip-text">Vocals + Drums + Bass + Guitar + Piano + Other</span></div>
+
         </div>
 
         <div id="file-options">
