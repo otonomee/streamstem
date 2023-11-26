@@ -13,8 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".hoverLine").style.width = "0";
   });
 
-  urlInput.focus();
+  // urlInput.focus();
   urlInput.click();
+
+  let radioBtns = document.querySelectorAll(".form-check");
+  radioBtns.forEach((btn) => {
+    btn.addEventListener("hover", () => {
+      // Display a popup tooltip explaining the number of stems
+      console.log(btn);
+    });
+  });
 
   let numStems;
 
@@ -83,15 +91,30 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((files) => {
           let container = document.createElement("div");
-          container.className = "container";
+          container.className = "stems-container";
           document.body.appendChild(container);
           files.forEach((filename) => {
+            var audioContainer = document.createElement("div");
             var audio = document.createElement("audio");
+            var audioLabel = document.createElement("label");
             audio.className = "stem-player";
+            audioContainer.className = "stem-container";
+            audioLabel.className = "stem-label";
             audio.src =
               "/tracks/" + directory + "/" + encodeURIComponent(songName) + "/" + encodeURIComponent(filename);
             audio.controls = true;
-            container.appendChild(audio);
+            audioLabel.innerHTML = filename.substring(0, filename.lastIndexOf("."));
+            audioContainer.appendChild(audioLabel);
+            audioContainer.appendChild(audio);
+            audioContainer.innerHTML += `<i id="download-icon" class="download-icon fa fa-download" aria-hidden="true"></i>`;
+            container.appendChild(audioContainer);
+          });
+          let downloadIcons = document.querySelectorAll("#download-icon");
+          downloadIcons.forEach((icon) => {
+            icon.addEventListener("click", () => {
+              let filename = icon.parentElement.children[1].src.split("/").pop();
+              window.location = "/download?filename=" + encodeURIComponent(filename);
+            });
           });
         });
     }
