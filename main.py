@@ -1,7 +1,7 @@
 from flask import Response, jsonify, Flask, send_file, request, render_template
 from downloader import Downloader
 from demucs_processor import DemucsProcessor
-from url_conversion import UrlConverter
+from spotify_to_yt import ConvertSpofity
 import os
 import glob
 
@@ -11,39 +11,42 @@ global filename
 # downloader = Downloader()
 demucs_processor = DemucsProcessor()
 downloader = Downloader()
-url_converter = UrlConverter()
 
-@app.route('/', methods=['POST', 'GET'])
+
+@app.route("/", methods=["POST", "GET"])
 def home():
-    return render_template('index.html')
+    return render_template("index.html")
 
-@app.route('/download_video', methods=['POST'])
+
+@app.route("/download_video", methods=["POST"])
 def download_audio():
-    if request.method == 'POST':
-        url = request.json.get('url')
-        url = url_converter.convert_to_youtube_url(url)
-        filetype = request.json.get('filetype')
+    if request.method == "POST":
+        input_url = request.json.get("url")
+        url = ConvertSpofity(input_url).get_youtube_url()
+        filetype = request.json.get("filetype")
         if url:
             filename = downloader.download_video(url, filetype)
-            print('filename', filename)
-    return jsonify({'status': 'success', 'filename': str(filename)})
+            print("filename", filename)
+    return jsonify({"status": "success", "filename": str(filename)})
+
 
 def progress_check(d):
-    if d['status'] == 'finished':
-        print('RUN DEMUCS')
+    if d["status"] == "finished":
+        print("RUN DEMUCS")
 
-@app.route('/process_audio', methods=['POST'])
+
+@app.route("/process_audio", methods=["POST"])
 def process_audio():
-    filename = request.json.get('filename')
-    filetype = request.json.get('filetype')
-    num_stems = request.json.get('numStems')
+    filename = request.json.get("filename")
+    filetype = request.json.get("filetype")
+    num_stems = request.json.get("numStems")
     demucs_processor.process_audio(filename, filetype, num_stems)
-    # requests.get('http://localhost:5000/download')
-    return jsonify({'message': 'Finished', 'filename': str(filename)})
+    return jsonify({"message": "Finished", "filename": str(filename)})
 
-@app.route('/download', methods=['POST', 'GET'])
+
+@app.route("/download", methods=["POST", "GET"])
 def download():
-    filename = request.args.get('filename')
+    filename = request.args.get("filename")
     response = send_file(f"{filename}.zip", as_attachment=True)
 
     # Delete the .zip file after sending it
@@ -58,15 +61,18 @@ def download():
 
     return response
 
-# login page
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    return render_template('login.html')
 
-#register page
-@app.route('/register', methods=['POST', 'GET'])
+# login page
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    return render_template("login.html")
+
+
+# register page
+@app.route("/register", methods=["POST", "GET"])
 def register():
-    return render_template('register.html')
+    return render_template("register.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000, use_reloader=False)

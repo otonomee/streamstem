@@ -9,6 +9,7 @@ tracks
 *.mp3
 tracks/htdemucs/*
 tracks/htdemucs_6s/*
-api_token.json
+config.json
 templates/login.html 
 templates/register.html
+soundiiz.py
