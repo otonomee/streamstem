@@ -66,14 +66,35 @@ document.addEventListener("DOMContentLoaded", () => {
               updateUi("Video title:", data.filename.replace(/\.[^/.]+$/, ""));
               if (data.message === "Finished") {
                 loadingGif.style.display = "none";
-                window.location =
-                  "/download?filename=STEMS-" +
-                  encodeURIComponent(data.filename.replace(/\.[^/.]+$/, ""));
+
+                displayAudioFiles(data.filename);
+                // window.location =
+                //   "/download?filename=STEMS-" +
+                //   encodeURIComponent(data.filename.replace(/\.[^/.]+$/, ""));
               }
             })
             .catch((error) => console.error("Error:", error));
         }
       });
+    function displayAudioFiles(songName) {
+      let directory = numStems == 6 ? "htdemucs_6s" : "htdemucs";
+      // Fetch the list of audio files from the server
+      fetch("/tracks/" + directory + "/" + encodeURIComponent(songName))
+        .then((response) => response.json())
+        .then((files) => {
+          let container = document.createElement("div");
+          container.className = "container";
+          document.body.appendChild(container);
+          files.forEach((filename) => {
+            var audio = document.createElement("audio");
+            audio.className = "stem-player";
+            audio.src =
+              "/tracks/" + directory + "/" + encodeURIComponent(songName) + "/" + encodeURIComponent(filename);
+            audio.controls = true;
+            container.appendChild(audio);
+          });
+        });
+    }
   });
 
   function updateUi(filename) {
@@ -88,9 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addChangeEventListener(radio) {
     radio.addEventListener("change", () => {
-      const radios = document.querySelectorAll(
-        'input[type=radio][name="flexRadioDefault"]'
-      );
+      const radios = document.querySelectorAll('input[type=radio][name="flexRadioDefault"]');
 
       radios.forEach((r) => {
         r.removeAttribute("checked");
@@ -101,9 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function addChangeListeners() {
-    const radios = document.querySelectorAll(
-      'input[type=radio][name="flexRadioDefault"]'
-    );
+    const radios = document.querySelectorAll('input[type=radio][name="flexRadioDefault"]');
 
     radios.forEach(addChangeEventListener);
   }

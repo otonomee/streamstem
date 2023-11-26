@@ -1,4 +1,12 @@
-from flask import Response, jsonify, Flask, send_file, request, render_template
+from flask import (
+    Response,
+    jsonify,
+    Flask,
+    send_file,
+    request,
+    render_template,
+    send_from_directory,
+)
 from downloader import Downloader
 from demucs_processor import DemucsProcessor
 from spotify_to_yt import ConvertSpofity
@@ -15,6 +23,19 @@ downloader = Downloader()
 
 @app.route("/", methods=["POST", "GET"])
 def home():
+    refresh_directories()
+    return render_template("index.html")
+
+
+import os
+import shutil
+import glob
+
+
+@app.route("/delete", methods=["POST", "GET"])
+def delete():
+    # clear the contents of /tracks/htdemucs/ and /tracks/htdemucs_6s/
+
     return render_template("index.html")
 
 
@@ -22,7 +43,10 @@ def home():
 def download_audio():
     if request.method == "POST":
         input_url = request.json.get("url")
-        url = ConvertSpofity(input_url).get_youtube_url()
+        if "spotify" in input_url:
+            url = ConvertSpofity(input_url).get_youtube_url()
+        else:
+            url = input_url
         filetype = request.json.get("filetype")
         if url:
             filename = downloader.download_video(url, filetype)
@@ -58,8 +82,25 @@ def download():
         os.remove(file)
     for file in glob.glob("*.wav"):
         os.remove(file)
+    for file in glob.glob("*flac"):
+        os.remove(file)
 
     return response
+
+
+@app.route("/tracks/<stem_type>/<path:songname>", methods=["GET"])
+def serve_audio(stem_type, songname):
+    print("stem type", stem_type)
+    print("songname", songname)
+    directory = f"tracks/{stem_type}/{songname}"
+
+    files = os.listdir(directory)
+    return jsonify(files)
+
+
+@app.route("/tracks/<stem_type>/<path:songname>/<filename>", methods=["GET"])
+def serve_file(stem_type, songname, filename):
+    return send_from_directory(f"tracks/{stem_type}/{songname}", filename)
 
 
 # login page
@@ -72,6 +113,15 @@ def login():
 @app.route("/register", methods=["POST", "GET"])
 def register():
     return render_template("register.html")
+
+
+def refresh_directories():
+    for directory in glob.glob("tracks/htdemucs/*"):
+        if os.path.isdir(directory):
+            shutil.rmtree(directory)
+    for directory in glob.glob("tracks/htdemucs_6s/*"):
+        if os.path.isdir(directory):
+            shutil.rmtree(directory)
 
 
 if __name__ == "__main__":
