@@ -29,6 +29,22 @@ body::after {
   z-index: -1;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none !important;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+input:focused {
+  outline-width: 0;
+}
+
 .main-container {
   text-align: center;
   padding: 50px;
@@ -50,7 +66,7 @@ h1 {
 label {
   font-size: 10px;
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: -3px;
   text-align: left;
   width: 100%;
 }
@@ -65,7 +81,7 @@ input {
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
-  font-size: 0.95em;
+  font-size: 15px;
   outline: none;
   transition: border-color 0.3s;
   background: none;
@@ -75,9 +91,11 @@ input {
   box-shadow: 0 4px 2px -2px gray;
   box-shadow: 0px 2px 2px -2px #aeadf0;
   margin-bottom: 5px;
-  color: #ecfff8;
+  color: #ecfff8e8;
   text-align: left;
   font-style: italic;
+  height: 40px;
+  padding-left: 31px;
 }
 
 .form-control:focus {
@@ -151,7 +169,7 @@ select#fileType {
   color: rgb(0, 0, 0);
   background-color: #f6d9fd;
   /* border: 0px; */
-  /* cursor: pointer; */
+  cursor: pointer;
 }
 
 select#fileType:hover {
@@ -221,8 +239,9 @@ select#fileType:hover {
 }
 
 .form-check-input {
-  transform: scale(0.7);
-  cursor: pointer;
+  /* transform: scale(0.7); */
+  /* cursor: pointer; */
+  /* width: 5px; */
 }
 
 .form-check-input:checked {
@@ -238,8 +257,8 @@ select#fileType:hover {
 }
 
 * {
-  box-sizing: border-box;
-  outline: none;
+  /* box-sizing: border-box; */
+  /* outline: none; */
 }
 
 body {
