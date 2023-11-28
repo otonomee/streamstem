@@ -1,6 +1,6 @@
 html,
 body {
-  height: 100vh;
+  height: 100;
   margin: 0;
   padding: 0;
 }
@@ -12,12 +12,25 @@ body {
   margin: 0;
   padding: 0;
   color: #ecfff8;
-  /* min-height: 100vw; */
+  height: 100vw;
+  animation: fadeIn 0.2s ease-in-out;
   /* background: currentColor; */
-  background-size: auto;
+  background-size: cover;
+  overflow: auto;
+  /* overflow-y: clip; */
 }
 
-body::after {
+span,
+label,
+p {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+button {
+  box-shadow: 0px 3px 6px rgb(181 181 181 / 30%);
+}
+
+bodyafter {
   content: "";
   background: rgba(0, 0, 0, 0.22);
   /* Adjust the last value for opacity (0.5 for 50%) */
@@ -34,6 +47,31 @@ select:focus,
 textarea:focus,
 button:focus {
   outline: none !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0) inset !important;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  100% {
+    opacity: 0;
+  }
+  0% {
+    opacity: 1;
+  }
 }
 
 textarea:focus,
@@ -55,7 +93,7 @@ input:focused {
 
 h1 {
   font-size: 2.5em;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   color: linear-gradient(to right, #dabaec, #a39deb);
 }
 
@@ -68,7 +106,7 @@ label {
   display: block;
   margin-bottom: -3px;
   text-align: left;
-  width: 100%;
+  /* width: 100%; */
 }
 
 input:focus,
@@ -86,7 +124,7 @@ input {
   transition: border-color 0.3s;
   background: none;
   border: none;
-  border-bottom: 1px solid #aeadf0;
+  border-bottom: 1px solid #aeadf091;
   border-radius: 0;
   box-shadow: 0 4px 2px -2px gray;
   box-shadow: 0px 2px 2px -2px #aeadf0;
@@ -95,6 +133,12 @@ input {
   text-align: left;
   font-style: italic;
   height: 40px;
+}
+
+.form-control:hover,
+input:hover {
+  border-color: #aeadf0; /* Change the border color */
+  box-shadow: 0px 2px 2px -2px #888; /* Change the shadow color */
 }
 
 .form-control:focus {
@@ -124,24 +168,31 @@ input:focus {
 
 .center-content {
   background: rgb(0 0 0 / 66%);
-  width: 58%;
-  max-height: 100%;
+  width: 81%;
+  height: 100vw;
   margin: 0 auto;
   padding: 75px;
+  padding-bottom: 20px;
   display: flex;
+  padding-bottom: 0px;
   flex-direction: column;
-  height: 100vw;
-  overflow: auto;
+  /* height: fit-content; */
+  /* overflow: auto; */
+  /* overflow-y: hidden; */
+  scroll-behavior: smooth;
+  overflow-x: clip;
+  /* height: auto; */
 }
 
 .form-check-input {
   --bs-form-check-bg: #ffffff00 !important;
 }
-
 #submitBtn {
+  position: relative;
+  overflow: hidden;
   background-color: rgba(100, 100, 100, 0.3);
-  color: #dadafa;
-  border: 2px solid;
+  color: white;
+  border: 1px solid;
   padding: 0.5em 2em;
   font-size: 1em;
   cursor: pointer;
@@ -150,15 +201,38 @@ input:focus {
   width: 220px;
   margin-left: 50px;
   border-radius: 0.375rem;
+  border-color: #ffffff7d;
 }
 
 #submitBtn:hover {
-  border-color: #ecfff8;
-
+  transform: scale(1.05);
+  border-color: #beb6ff;
   color: #ecfff8;
   box-shadow: 0 12px 16px 0 rgba(81, 81, 81, 0.24), 0 17px 50px 0 rgba(102, 101, 101, 0.19);
-  transform: translateY(-0.25em);
-  cursor: pointer;
+}
+
+#submitBtn:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: skewX(-15deg);
+}
+
+#submitBtn:hover:before {
+  animation: sweep 1.6s infinite; /* Move this line here */
+}
+
+@keyframes sweep {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 select#fileType {
@@ -211,8 +285,8 @@ select#fileType:hover {
   /* background: rgb(117 78 78 / 6%); */
   border: 1px solid rgba(174, 173, 240, 0.3);
   backdrop-filter: blur(82px);
-  box-shadow: 0 0 10px rgb(255 255 255 / 15%);
-  color: white;
+  box-shadow: 0 0 10px rgb(255 255 255 / 5%);
+  /* color: white; */
   border-radius: 10px;
   padding: 30px 40px;
   position: relative;
@@ -242,7 +316,7 @@ select#fileType:hover {
 
 .form-check-input {
   /* transform: scale(1); */
-  /* cursor: pointer; */
+  cursor: pointer;
   /* width: 5px; */
 }
 
@@ -258,6 +332,18 @@ select#fileType:hover {
   color: #ebedff;
   transform: scale(0.8);
   text-wrap: nowrap;
+  cursor: pointer;
+}
+
+.form-check-input[type="radio"] {
+  border-radius: 50%;
+}
+
+.form-check-input[type="radio"]:hover {
+  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5); /* Add a subtle white glow */
+  cursor: pointer; /* Change the cursor to a hand */
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
 }
 
 * {
@@ -315,30 +401,260 @@ svg {
   flex-direction: column-reverse;
   justify-content: space-between;
   margin-top: 20px;
+  background: none;
 }
 
 .stem-container {
   display: flex;
-  justify-content: space-between;
-  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
   margin-top: 20px;
-  background: #6a056442;
-  border: 2px solid purple;
-  padding: 15px;
-  border-radius: 33px;
+  background: rgba(0, 0, 0, 0);
+  /* border: 2px solid purple; */
+  /* padding: 15px; */
+  border-radius: 0px;
+  /* height: 50px; */
+  /* flex-wrap: wrap; */
+  flex-direction: row;
+  /* flex-direction: row; */
 }
 
 .stem-label {
-  font-size: 30px;
+  font-size: 18px;
   text-align: center;
+  background: rgba(0, 0, 0, 0);
+  height: inherit;
+  display: flex;
+  width: 88px;
+  align-items: center;
+  text-align: center;
+  /* padding-left: 9px; */
+  /* display: block; */
+  /* width: 100%; */
+  padding-bottom: 11px;
+  margin-right: 10px;
 }
 
 .stem-player {
   width: 100%;
+  height: 39px;
+  justify-items: center;
+  width: revert;
+  /* float: left; */
+  /* margin-right: 0px; */
+  margin-right: 11px;
+  display: flex;
+  justify-content: center;
 }
 
 .spinnyGif {
-  height: 25px;
-  margin-right: 15px;
-  margin-top: 12px;
+  height: 41px;
+  margin-right: 2px;
+  margin-left: -11px;
+  /* margin-top: 12px; */
+  /* display: block; */
 }
+
+.successGif {
+  height: 20px;
+  margin-right: 10px;
+  /* margin-top: 12px; */
+  /* display: block; */
+}
+
+.status-message-container {
+  display: block;
+  margin: 0px auto;
+  margin-top: 10px;
+}
+
+.single-message-container {
+  display: flex;
+  /* justify-items: left; */
+  /* justify-content: left; */
+  margin: 0 auto;
+  width: 380px;
+  margin-top: 9px;
+  align-items: center;
+}
+
+i.download-icon.fa.fa-download {
+  align-self: center;
+  /* margin-left: 10px; */
+  cursor: pointer;
+  /* fill: purple; */
+  color: white;
+  padding-right: 7px;
+}
+
+i.download-icon.fa.fa-download:hover {
+  transition: 0.2s;
+  opacity: 1;
+  fill: #ecfff8; /* Add this line to change the color on hover */
+}
+
+.stem-container {
+  /* height: 150px; */
+  width: auto;
+  margin: 0 auto;
+  margin-top: 23px;
+}
+
+.waveform {
+  height: 100px;
+  width: 100%;
+}
+
+.label-div {
+  height: 100%;
+  border-right: 2px solid purple;
+  width: 90px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn.btn-primary.btn-download-stem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 11px;
+  width: 115px;
+  font-size: 15px;
+  height: 41px;
+  background-color: #ff149370;
+  border: 1px solid #ffc0cb59;
+}
+
+.btn.btn-primary.btn-download-stem:hover {
+  transition: 0.3s;
+  background-color: #ff1493;
+}
+
+.btn.btn-primary.btn-download-stem:focus {
+  background-color: #de117e;
+
+  color: white;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+div.player-div {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: row;
+}
+
+span.status-message {
+  font-size: 19px;
+}
+
+button.btn.cancelBtn {
+  height: 45px;
+  width: 100px;
+  padding: 15px;
+  background-color: rgb(210 146 146 / 78%);
+  box-shadow: 0px 3px 5px rgba(255, 255, 255, 0.3);
+  color: black;
+  margin: 15px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+button.btn.cancelBtn:hover {
+  background-color: rgb(166, 92, 92); /* Darken the background color */
+
+  cursor: pointer; /* Change the cursor to a hand */
+}
+
+.cancelBtnText {
+  margin-top: -8px;
+}
+
+.btn-new-song {
+  height: 45px;
+  width: 204px;
+  /* padding-right: 23px; */
+  background-color: #f6d9fd;
+  border: none;
+  box-shadow: 0px 3px 5px rgba(255, 255, 255, 0.3);
+  color: #4c1d76;
+  display: block;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 8px;
+  justify-self: right;
+}
+
+div.duo-btn-div {
+  display: flex;
+  width: 70%;
+  margin-top: -19px;
+  margin: 0 auto;
+  justify-self: unset;
+  /* display: inline-block; */
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.btn-new-song:hover {
+  background-color: #dabaec; /* Darken the background color */
+
+  cursor: pointer; /* Change the cursor to a hand */
+}
+
+.btn-download-zip {
+  height: 45px;
+  width: 225px;
+  /* padding: 15px; */
+  background-color: #f6d9fd;
+  box-shadow: 0px 3px 5px rgba(255, 255, 255, 0.3);
+  color: #4c1d76;
+  margin: 15px;
+  display: block;
+  margin: 0 auto;
+  border: none;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.btn-download-zip:hover {
+  background-color: #dabaec; /* Darken the background color */
+
+  cursor: pointer; /* Change the cursor to a hand */
+}
+
+.btn-download-zip:focus {
+  background-color: #dabaecc7; /* Darken the background color */
+  color: white;
+}
+
+.btn-download-zip:hover {
+  background-color: #dabaec; /* Darken the background color */
+
+  cursor: pointer; /* Change the cursor to a hand */
+}
+
+.btn-download-zip:focus {
+  background-color: #dabaecc7; /* Darken the background color */
+  color: white;
+}
+
+i.fa-solid.fa-rotate-right,
+i.download-all-icon.fa.fa-download {
+  padding-right: 10px;
+}
+
+.stem-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+}
+
+/* footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+} */

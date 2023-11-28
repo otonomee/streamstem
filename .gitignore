@@ -4,6 +4,7 @@ separated/*
 cookies.txt
 myenv
 __pycache__
+.vscode
 tracks
 *.zip
 *.mp3
@@ -12,4 +13,4 @@ tracks/htdemucs_6s/*
 config.json
 templates/login.html 
 templates/register.html
-soundiiz.py
+soundiiz.pysc
