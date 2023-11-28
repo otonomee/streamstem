@@ -12,7 +12,7 @@ This is a Flask web app using the following resources:
 
 ## Screenshot
 
-![alt text](static/landing.png)
+![alt text](static/landing-new.png)
 
 ## Installation
 
