@@ -8,7 +8,7 @@ This is a Flask web app using the following resources:
 
 - [Demucs ML model](https://github.com/facebookresearch/demucs): Demucs is an music source separation model that creates the stems
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp): Extracts the audio from the YouTube videos before passing them into demucs.
-- [Spotify API](https://developer.spotify.com/documentation/web-api) & [Youtube Data API(https://developers.google.com/youtube/v3) for URL conversion
+- [Spotify API](https://developer.spotify.com/documentation/web-api) & [Youtube Data API](https://developers.google.com/youtube/v3) for URL conversion
 
 ## Screenshot
 
