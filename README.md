@@ -1,4 +1,4 @@
-# spotify-youtube-stem-separator
+# StemStream
 
 ## Extract the "stems" (e.g. drums, vocals, bass) from any song on Spotify or Youtube into separate audio files
 
