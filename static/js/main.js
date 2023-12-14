@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Validate URL format
     const youtubeUrlRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=[\w-]{11}$/;
-    const spotifyUrlRegex = /^(https?:\/\/)?(www\.)?open\.spotify\.com\/track\/[\w-]{22}$/;
+    const spotifyUrlRegex = /^(https?:\/\/)?(www\.)?open\.spotify\.com\/track\/[\w-]{22}(\?.*)?$/;
     //youtu.be/UT5F9AXjwhg
     const youtubeUrlRegex2 = /^(https?:\/\/)?(www\.)?youtu\.be\/[\w-]{11}$/;
 
@@ -139,8 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
             audio.className = "stem-player";
             audioContainer.className = "stem-container";
             audioLabel.className = "stem-label";
-            audio.src =
-              "/tracks/" + directory + "/" + encodeURIComponent(songName) + "/" + encodeURIComponent(filename);
+            audio.src = "/tracks/" + directory + "/" + encodeURIComponent(songName) + "/" + encodeURIComponent(filename);
             audio.controls = true;
             audioLabel.innerHTML = `<img class="stem-icon" src="/static/${filename.substring(
               0,
