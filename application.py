@@ -109,5 +109,5 @@ def refresh_directories():
         os.remove(file)
 
 
-if __name__ == "__main__":
-    app.run(debug=True, port=5001, use_reloader=False)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
