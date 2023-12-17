@@ -108,5 +108,9 @@ def refresh_directories():
     for file in glob.glob("*flac"):
         os.remove(file)
 
+@app.route('/flaskwebgui-keep-server-alive')
+def keep_alive():
+    return "Server is alive"
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5001)))
