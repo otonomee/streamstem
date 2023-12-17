@@ -1,6 +1,6 @@
 html,
 body {
-  height: 100vw;
+  height: 100;
   margin: 0;
   padding: 0;
 }
@@ -169,7 +169,7 @@ input:focus {
 .center-content {
   background: rgb(0 0 0 / 66%);
   width: 81%;
-  height: 100%;
+  height: 100vw;
   margin: 0 auto;
   padding: 75px;
   padding-bottom: 20px;
