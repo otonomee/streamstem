@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "../../youtube-ai-stem-separator"
+	},
+	{
+		"path": ".."
+	},
+	{
+		"path": "../../ai-synthesis/ai-synthesis-scraper"
+	}
+],
+  "settings": {}
+}
