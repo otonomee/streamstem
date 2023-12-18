@@ -11,6 +11,6 @@ requests==2.26.0
 urllib3==1.26.7
 Werkzeug==1.0.1
 yt-dlp==2021.6.1
-
+pathlib==1.0.1
 git+https://github.com/facebookresearch/demucs.git#egg=demucs
 gunicorn
