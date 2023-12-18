@@ -83,6 +83,38 @@ input:focused {
   outline-width: 0;
 }
 
+.top-nav {
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 3.3);
+  border-bottom: 1px solid #ffc0cb3d;
+  height: 71px;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  width: 81%;
+  margin: 0 auto;
+  background: rgb(0 0 0 / 78%);
+  width: 81%;
+  /* height: 100vw; */
+  margin: 0 auto;
+  padding: 75px;
+  padding-bottom: 20px;
+  display: flex;
+  padding-bottom: 0px;
+  align-items: center;
+  flex-direction: row;
+}
+
+.nav-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+  align-self: center;
+  font-size: 2em;
+  font-family: "Poppins";
+  font-weight: 600;
+}
+
 .main-container {
   text-align: center;
   padding: 50px;
@@ -284,12 +316,16 @@ select#fileType:hover {
 .main-form {
   /* background: rgb(117 78 78 / 6%); */
   border: 1px solid rgba(174, 173, 240, 0.3);
-  backdrop-filter: blur(82px);
-  box-shadow: 0 0 10px rgb(255 255 255 / 5%);
-  /* color: white; */
-  border-radius: 10px;
-  padding: 30px 40px;
-  position: relative;
+  .link-icon {
+    color: #d8dcff;
+    position: absolute;
+    left: -2px;
+    -webkit-backdrop-filter: blur(10px); /* Add this line */
+    backdrop-filter: blur(10px); /* Add this line */
+    width: -moz-fit-content; /* Add this line */
+    width: fit-content;
+  }
+  width: -moz-fit-content; /* Add width: -moz-fit-content */
   width: fit-content;
 }
 
