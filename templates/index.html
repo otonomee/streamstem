@@ -44,6 +44,10 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 </script>
 <body>
+  <nav class="top-nav">
+    <img src="logo.png" alt="Stream Stem Logo" class="logo">
+    <p class="nav-title">Stream Stem</p>
+</nav>
   <div class="center-content">
     <h1 class="mt-2 page-header">Extract Song Stems From Youtube or Spotify</h1>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
@@ -97,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <div id="file-options">
         </div>
         <div class="btn-container">
-          <select id="fileType" class="form-select mb-3">
+          <select title="typeSelect" id="fileType" class="form-select mb-3">
             <option value="format-mp3">MP3</option>
             <option value="format-wav">WAV</option>
             <option value="format-flac">FLAC</option>
