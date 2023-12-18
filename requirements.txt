@@ -11,4 +11,5 @@ requests==2.31.0
 urllib3==2.1.0
 Werkzeug==3.0.1
 yt-dlp==2023.7.6
+demucs==4.0.1
 gunicorn
