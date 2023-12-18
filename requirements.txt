@@ -8,7 +8,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
 requests==2.31.0
-urllib3==1.26.7
+urllib3==1.26.17
 Werkzeug==1.0.1
 yt-dlp==2023.11.16
 pathlib==1.0.1
