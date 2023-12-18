@@ -1,6 +1,6 @@
 blinker==1.4
 certifi==2021.10.8
-charset-normalizer==3.3.2
+charset-normalizer==3.0.1
 click==8.1.7
 Flask==3.0.0
 idna==3.6
