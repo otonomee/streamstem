@@ -1,4 +1,4 @@
-blinker==1.6.2
+blinker==1.4
 certifi==2023.11.17
 charset-normalizer==3.3.2
 click==8.1.7
