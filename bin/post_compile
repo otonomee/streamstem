@@ -1,0 +1,3 @@
+#!/bin/bash
+cd demucs
+pip install -e .
