@@ -12,5 +12,5 @@ urllib3==2.1.0
 Werkzeug==3.0.1
 yt-dlp==2023.7.6
 demucs==4.0.1
-torch==1.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+
 gunicorn
