@@ -9,7 +9,7 @@ Jinja2==2.11.3
 MarkupSafe==1.1.1
 requests==2.26.0
 urllib3==1.26.7
-Werkzeug==2.0.2
+Werkzeug==1.0.1
 yt-dlp==2023.7.6
 demucs==4.0.1
 
