@@ -5,6 +5,8 @@ import sys
 import shutil
 from typing import Dict, Tuple, Optional, IO
 import os
+os.environ["PATH"] += os.pathsep + os.path.abspath("demucs")
+import os
 
 
 class DemucsProcessor:
@@ -43,10 +45,12 @@ class DemucsProcessor:
         if num_stems == "6":
             model = "htdemucs_6s"
 
+        demucs_path = os.path.join(os.path.abspath("demucs"), "demucs")
+
         cmd = [
             "python3",
             "-m",
-            "demucs.separate",
+            demucs_path + ".separate",
             "-n",
             model,
             "-o",
