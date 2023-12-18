@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const url = new URL(document.querySelector("#url").value).origin + new URL(document.querySelector("#url").value).pathname;
 
     // Validate URL format
-    const youtubeUrlRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=[\w-]{11}$/;
+    const youtubeUrlRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=[\w-]{10,11}$/;
     const spotifyUrlRegex = /^(https?:\/\/)?(www\.)?open\.spotify\.com\/track\/[\w-]{22}$/;
 
     //youtu.be/UT5F9AXjwhg
