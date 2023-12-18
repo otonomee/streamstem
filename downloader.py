@@ -3,7 +3,7 @@ import subprocess
 class Downloader:
     def download_video(self, youtube_url, filetype):
         try:
-            subprocess.run(["yt-dlp", "--extract-audio", "--audio-format", filetype, "-o", "%(title)s", youtube_url], check=True)
+            subprocess.run(["yt-dlp", "--extract-audio", "--audio-format", filetype, "-o", "%(title)s", youtube_url, "--force-ipv4"], check=True)
             output_filename = self.get_output_filename(youtube_url)
             return str(output_filename)
         except subprocess.CalledProcessError:
