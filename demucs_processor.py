@@ -2,6 +2,7 @@ import io
 import select
 import subprocess as sp
 import sys
+sys.path.append('demucs')
 import shutil
 from typing import Dict, Tuple, Optional, IO
 import os
