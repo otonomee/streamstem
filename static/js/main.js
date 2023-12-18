@@ -27,14 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const filetype = document.querySelector("#fileType").value.split("-")[1];
     const numStems = document.querySelector("input:checked").nextElementSibling.innerText[0];
-    const url = new URL(document.querySelector("#url").value).origin + new URL(document.querySelector("#url").value).pathname;
+    const url = document.querySelector("#url").value;
 
     // Validate URL format
-    const youtubeUrlRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=[\w-]{10,11}$/;
-    const spotifyUrlRegex = /^(https?:\/\/)?(www\.)?open\.spotify\.com\/track\/[\w-]{22}$/;
-
-    //youtu.be/UT5F9AXjwhg
-    const youtubeUrlRegex2 = /^(https?:\/\/)?(www\.)?youtu\.be\/[\w-]{11}$/;
+    const youtubeUrlRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=[\w-]{10,12}(&[\w-]+=([\w-]*))*$/;
+    const youtubeUrlRegex2 = /^(https?:\/\/)?(www\.)?youtu\.be\/[\w-]{11}(&[\w-]+=([\w-]*))*$/;
+    const spotifyUrlRegex = /^(https?:\/\/)?(www\.)?open\.spotify\.com\/track\/[\w-]{22}(\?[\w-]+=([\w-]*))*$/;
 
     https: if (!youtubeUrlRegex.test(url) && !spotifyUrlRegex.test(url) && !youtubeUrlRegex2.test(url)) {
       console.error("Unsupported URL:", url);
