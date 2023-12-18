@@ -12,7 +12,7 @@ urllib3==1.26.17
 Werkzeug==1.0.1
 yt-dlp==2023.11.16
 pathlib==1.0.1
-torch==1.6.1
+torch==1.6.0
 git+https://github.com/facebookresearch/demucs.git#egg=demucs
 gunicorn
 
