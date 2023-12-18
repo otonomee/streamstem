@@ -3,6 +3,7 @@ import json
 
 
 class ConvertSpofity:
+    # TODO: Add error handling
     def __init__(self, spotify_url):
         with open("config.json", "r") as f:
             config = json.load(f)
