@@ -12,6 +12,6 @@ urllib3==1.26.17
 Werkzeug==1.0.1
 yt-dlp==2023.11.16
 pathlib==1.0.1
-torch==2.0.0
+torch==1.10.1
 gunicorn
 
