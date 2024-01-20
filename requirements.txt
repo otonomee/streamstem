@@ -12,7 +12,8 @@ urllib3==1.26.17
 Werkzeug==1.0.1
 yt-dlp==2023.11.16
 pathlib==1.0.1
+demucs @ git+https://github.com/facebookresearch/demucs.git#egg=demucs --no-deps
 torch @ https://download.pytorch.org/whl/cpu/torch-1.8.1%2Bcpu-cp39-cp39-linux_x86_64.whl
-aws-wsgi
+# other demucs dependencies here
 gunicorn
 
