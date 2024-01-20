@@ -7,7 +7,7 @@ from flask import (
     render_template,
     send_from_directory,
 )
-import awsgi
+# import awsgi
 from downloader import Downloader
 from demucs_processor import DemucsProcessor
 from spotify_to_yt import ConvertSpofity
@@ -113,18 +113,18 @@ def refresh_directories():
 def keep_alive():
     return "Server is alive"
 
-def lambda_handler(event, context):
-    http_method = event.get('httpMethod')
-    if http_method is None:
-        # Handle direct invocation of the Lambda function here
-        # For example, you might return a simple message
-        return {
-            'statusCode': 200,
-            'body': 'This function was invoked directly.'
-        }
-    else:
-        # Handle invocation through API Gateway here
-        return awsgi.response(app, event, context, base64_content_types={"image/png"})
+# def lambda_handler(event, context):
+#     http_method = event.get('httpMethod')
+#     if http_method is None:
+#         # Handle direct invocation of the Lambda function here
+#         # For example, you might return a simple message
+#         return {
+#             'statusCode': 200,
+#             'body': 'This function was invoked directly.'
+#         }
+#     else:
+#         # Handle invocation through API Gateway here
+#         return awsgi.response(app, event, context, base64_content_types={"image/png"})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5001)))
