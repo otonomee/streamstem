@@ -12,11 +12,11 @@ body {
   margin: 0;
   padding: 0;
   color: #ecfff8;
-  height: 100vw;
+  height: 100;
   animation: fadeIn 0.2s ease-in-out;
   /* background: currentColor; */
-  background-size: cover;
-  overflow: auto;
+  /* background-size: cover; */
+  /* overflow: auto; */
   /* overflow-y: clip; */
 }
 
@@ -93,8 +93,8 @@ input:focused {
   padding: 0 20px;
   width: 81%;
   margin: 0 auto;
-  background: rgb(0 0 0 / 78%);
-  width: 81%;
+  /* background: rgb(0 0 0 / 78%); */
+  /* width: 100%; */
   /* height: 100vw; */
   margin: 0 auto;
   padding: 75px;
@@ -103,16 +103,23 @@ input:focused {
   padding-bottom: 0px;
   align-items: center;
   flex-direction: row;
+  justify-content: end;
+  display: flex;
 }
 
 .nav-title {
   font-size: 24px;
   font-weight: 600;
   color: white;
-  align-self: center;
+  /* align-self: center; */
   font-size: 2em;
+  justify-self: flex-start;
   font-family: "Poppins";
   font-weight: 600;
+  /* width: 604px; */
+  display: flex;
+  margin-right: 388px;
+  margin-top: -35px;
 }
 
 .main-container {
@@ -121,6 +128,12 @@ input:focused {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  transform: scale(0.076);
+  margin-top: -59px;
+  margin-right: -473px;
 }
 
 h1 {
@@ -317,16 +330,19 @@ select#fileType:hover {
   /* background: rgb(117 78 78 / 6%); */
   border: 1px solid rgba(174, 173, 240, 0.3);
   .link-icon {
-    color: #d8dcff;
-    position: absolute;
-    left: -2px;
-    -webkit-backdrop-filter: blur(10px); /* Add this line */
-    backdrop-filter: blur(10px); /* Add this line */
-    width: -moz-fit-content; /* Add this line */
-    width: fit-content;
+  color: #d8dcff;
+  position: absolute;
+  left: -2px;
+  -webkit-backdrop-filter: blur(10px); /* Add this line */
+  backdrop-filter: blur(10px); /* Add this line */
+  width: -moz-fit-content; /* Add this line */
+  width: fit-content;
   }
   width: -moz-fit-content; /* Add width: -moz-fit-content */
   width: fit-content;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0px 1px 6px rgba(255,255,255,0.2);
 }
 
 .link-icon {
