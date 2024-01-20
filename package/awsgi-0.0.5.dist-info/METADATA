@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: awsgi
+Version: 0.0.5
+Summary: asynchronous wsgi server
+Home-page: https://github.com/youngrok/awsgi
+Author: Youngrok Pak
+Author-email: pak.youngrok@gmail.com
+Keywords: asyncio http server wsgi
+Classifier: Development Status :: 3 - Alpha
+Classifier: Topic :: Software Development :: Libraries
+Classifier: License :: OSI Approved :: BSD License
+Requires-Dist: uvloop
+Requires-Dist: httptools
+Requires-Dist: websockets
+Requires-Dist: werkzeug
+

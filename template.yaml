@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Specification template describing your function.
+Resources:
+  MyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: application.lambda_handler
+      Runtime: python3.8
+      CodeUri: .
+      Events:
+        Api:
+          Type: Api 
+          Properties:
+            Path: /
+            Method: ANY
+      Environment:
+        Variables:
+          PORT: 5001
