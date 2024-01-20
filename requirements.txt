@@ -12,7 +12,7 @@ urllib3==1.26.17
 Werkzeug==1.0.1
 yt-dlp==2023.11.16
 pathlib==1.0.1
-torch==1.8.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
+torch @ https://download.pytorch.org/whl/cpu/torch-1.8.1%2Bcpu-cp39-cp39-linux_x86_64.whl
 aws-wsgi
 gunicorn
 
