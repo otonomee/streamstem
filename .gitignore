@@ -13,3 +13,4 @@ tracks/htdemucs_6s/*
 .git
 templates/login.html 
 templates/register.html
+package/*
