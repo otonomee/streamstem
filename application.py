@@ -127,4 +127,4 @@ def keep_alive():
 #         return awsgi.response(app, event, context, base64_content_types={"image/png"})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5001)))
+    app.run(host='0.0.0.0', debug=True, port=int(os.environ.get('PORT')))
