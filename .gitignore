@@ -10,7 +10,7 @@ tracks
 *.mp3
 tracks/htdemucs/*
 tracks/htdemucs_6s/*
-.git
+
 templates/login.html 
 templates/register.html
 package/*
