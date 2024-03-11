@@ -1,1 +1,1 @@
-web: gunicorn application:app
+web: gunicorn --log-file=- --compress application:app
