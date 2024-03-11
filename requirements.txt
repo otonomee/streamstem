@@ -16,4 +16,5 @@ Werkzeug==1.0.1
 yt-dlp==2023.11.16
 pathlib==1.0.1
 PySoundFile==0.9.0.post1
+soundfile
 gunicorn
