@@ -1,7 +1,5 @@
 setuptools==65.5.0
---find-links https://download.pytorch.org/whl/cpu/torch_stable.html
-torch>=1.8.1
---find-links https://download.pytorch.org/whl/cpu/torch_stable.html
+torch @ https://download.pytorch.org/whl/cpu/torch-1.8.1%2Bcpu-cp39-cp39-linux_x86_64.whl
 torchaudio>=0.8,<2.1
 blinker==1.4
 certifi==2021.10.8
