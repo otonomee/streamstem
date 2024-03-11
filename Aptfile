@@ -3,7 +3,5 @@ libasound2-dev
 python-dev 
 python-numpy 
 python-setuptools 
-libsndfile
-libsndfile-dev
 libsndfile1-dev
 libsndfile1
