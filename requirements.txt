@@ -1,5 +1,5 @@
 --find-links https://download.pytorch.org/whl/cpu/torch_stable.html
-torch>=1.8.1+cpu
+torch>=1.8.1
 --find-links https://download.pytorch.org/whl/cpu/torch_stable.html
 torchaudio>=0.8,<2.1
 blinker==1.4
@@ -18,4 +18,3 @@ yt-dlp==2023.11.16
 pathlib==1.0.1
 PySoundFile==0.9.0.post1
 gunicorn
-
