@@ -1,8 +1,8 @@
 # Attempt to reduce slug size by discarding GPU-specific libraries
 --find-links https://download.pytorch.org/whl/cpu/torch_stable.html
-torch==2.0.1
+torch==2.2.0
 --find-links https://download.pytorch.org/whl/cpu/torch_stable.html
-torchvision==0.15.2
+torchvision==0.1.6
 blinker==1.4
 certifi==2021.10.8
 charset-normalizer~=2.0.0
