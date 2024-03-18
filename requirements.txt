@@ -16,7 +16,7 @@ cloudpickle==3.0.0
 
 # Editable install with no version control (demucs==4.1.0a2)
 
--e /app/demucs
+
 
 dora_search==0.1.12
 
@@ -80,7 +80,11 @@ submitit==1.5.1
 
 sympy==1.12
 
-torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+torch==2.2.1+cpu
+
+torchaudio==2.2.1+cpu
+
+torchvision==0.17.1+cpu
 
 tqdm==4.66.2
 
