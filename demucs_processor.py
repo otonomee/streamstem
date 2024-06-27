@@ -2,10 +2,12 @@ import io
 import select
 import subprocess as sp
 import sys
-sys.path.append('demucs')
+
+sys.path.append("demucs")
 import shutil
 from typing import Dict, Tuple, Optional, IO
 import os
+
 os.environ["PATH"] += os.pathsep + os.path.abspath("demucs")
 import os
 
@@ -49,15 +51,16 @@ class DemucsProcessor:
         demucs_path = os.path.join(os.path.abspath("demucs"), "demucs")
 
         cmd = [
-                "python3",
-                "-m",
-                "demucs.separate",
-                "-n",
-                model,
-                "-o",
-                "tracks",
-                f"{filename}.{filetype}",
-            ]
+            "python3",
+            "-m",
+            "demucs.separate",
+            "-n",
+            model,
+            "-o",
+            "tracks",
+            f"{filename}.{filetype}",
+            "-d cpu",
+        ]
 
         if filetype == "mp3":
             cmd += ["--mp3", "--mp3-bitrate=320"]
