@@ -2,6 +2,6 @@ python3-numpy
 libgomp1
 libasound2-dev
 python-dev-is-python3
-python-setuptools 
+python3-setuptools
 libsndfile1-dev
 libsndfile1
