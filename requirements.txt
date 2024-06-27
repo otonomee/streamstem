@@ -1,6 +1,6 @@
 setuptools==65.5.0
-torch @ http://download.pytorch.org/whl/cpu/torch-1.8.0%2Bcpu-cp38-cp38-linux_x86_64.whl
-torchaudio>=0.8,<2.1
+torch @ http://download.pytorch.org/whl/cpu/torch-2.2.1%2Bcpu-cp312-cp312-linux_x86_64.whl
+torchaudio==2.1.0
 blinker==1.4
 certifi==2021.10.8
 charset-normalizer~=2.0.0
