@@ -1,97 +1,107 @@
-from flask import (
-    Response,
-    jsonify,
-    Flask,
-    send_file,
-    request,
-    render_template,
-    send_from_directory,
-)
-# import awsgi
+from fastapi import FastAPI, Request, Response, HTTPException
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+import os
+import glob
+import shutil
 from downloader import Downloader
 from demucs_processor import DemucsProcessor
 from spotify_to_yt import ConvertSpofity
-import os
-import glob
-import glob
-import shutil
 
-app = Flask(__name__)
+app = FastAPI()
+
+# Set up Jinja2 templates
+templates = Jinja2Templates(directory="templates")
+
+# Serve static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 global filename
 demucs_processor = DemucsProcessor()
 downloader = Downloader()
 
 
-@app.route("/", methods=["GET", "POST"])
-def home():
+class DownloadRequest(BaseModel):
+    url: str
+    filetype: str
+
+
+class ProcessRequest(BaseModel):
+    filename: str
+    filetype: str
+    numStems: int
+
+
+@app.get("/")
+async def home(request: Request):
     refresh_directories()
-    return render_template("index.html")
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.route("/delete", methods=["POST", "GET"])
-def delete():
-    return render_template("index.html")
+@app.get("/delete")
+async def delete(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.route("/download_video", methods=["POST"])
-def download_audio():
-    if request.method == "POST":
-        input_url = request.json.get("url")
-        if "spotify" in input_url:
-            url = ConvertSpofity(input_url).get_youtube_url()
-        else:
-            url = input_url
-        filetype = request.json.get("filetype")
-        if url:
-            filename = downloader.download_video(url, filetype)
-            print("filename", filename)
-    return jsonify({"status": "success", "filename": str(filename)})
+@app.post("/download_video")
+async def download_audio(request: DownloadRequest):
+    input_url = request.url
+    if "spotify" in input_url:
+        url = ConvertSpofity(input_url).get_youtube_url()
+    else:
+        url = input_url
+
+    if url:
+        filename = downloader.download_video(url, request.filetype)
+        print("filename", filename)
+        return {"status": "success", "filename": str(filename)}
 
 
-@app.route("/process_audio", methods=["POST"])
-def process_audio():
-    filename = request.json.get("filename")
-    filetype = request.json.get("filetype")
-    num_stems = request.json.get("numStems")
-    demucs_processor.process_audio(filename, filetype, num_stems)
-    return jsonify({"message": "Finished", "filename": str(filename)})
+@app.post("/process_audio")
+async def process_audio(request: ProcessRequest):
+    demucs_processor.process_audio(request.filename, request.filetype, request.numStems)
+    return {"message": "Finished", "filename": str(request.filename)}
 
 
-@app.route("/download", methods=["POST", "GET"])
-def download():
-    print("/download it")
-    filename = request.args.get("filename")
-    response = send_file(f"{filename}.zip", as_attachment=True)
-
-    # Delete the .zip file after sending it
-    if os.path.exists(f"{filename}.zip"):
-        os.remove(f"{filename}.zip")
-
-    return response
+@app.get("/download")
+async def download(filename: str):
+    file_path = f"{filename}.zip"
+    if os.path.exists(file_path):
+        response = FileResponse(file_path, filename=os.path.basename(file_path))
+        return response
+    else:
+        raise HTTPException(status_code=404, detail="File not found")
 
 
-@app.route("/tracks/<stem_type>/<path:songname>", methods=["GET"])
-def serve_audio(stem_type, songname):
+@app.get("/tracks/{stem_type}/{songname}")
+async def serve_audio(stem_type: str, songname: str):
     directory = f"tracks/{stem_type}/{songname}"
-    files = os.listdir(directory)
-    return jsonify(files)
+    if os.path.exists(directory):
+        files = os.listdir(directory)
+        return JSONResponse(content=files)
+    else:
+        raise HTTPException(status_code=404, detail="Directory not found")
 
 
-@app.route("/tracks/<stem_type>/<path:songname>/<filename>", methods=["GET"])
-def serve_file(stem_type, songname, filename):
-    return send_from_directory(f"tracks/{stem_type}/{songname}", filename)
+@app.get("/tracks/{stem_type}/{songname}/{filename}")
+async def serve_file(stem_type: str, songname: str, filename: str):
+    file_path = f"tracks/{stem_type}/{songname}/{filename}"
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    else:
+        raise HTTPException(status_code=404, detail="File not found")
 
 
-# login page
-@app.route("/login", methods=["POST", "GET"])
-def login():
-    return render_template("login.html")
+@app.get("/login")
+async def login(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
 
 
-# register page
-@app.route("/register", methods=["POST", "GET"])
-def register():
-    return render_template("register.html")
+@app.get("/register")
+async def register(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
 
 
 def refresh_directories():
@@ -101,30 +111,16 @@ def refresh_directories():
     for directory in glob.glob("tracks/htdemucs_6s/*"):
         if os.path.isdir(directory):
             shutil.rmtree(directory)
-    # Delete any .mp3 or .wav files
-    for file in glob.glob("*.mp3"):
-        os.remove(file)
-    for file in glob.glob("*.wav"):
-        os.remove(file)
-    for file in glob.glob("*flac"):
+    for file in glob.glob("*.mp3") + glob.glob("*.wav") + glob.glob("*.flac"):
         os.remove(file)
 
-@app.route('/flaskwebgui-keep-server-alive')
-def keep_alive():
+
+@app.get("/flaskwebgui-keep-server-alive")
+async def keep_alive():
     return "Server is alive"
 
-# def lambda_handler(event, context):
-#     http_method = event.get('httpMethod')
-#     if http_method is None:
-#         # Handle direct invocation of the Lambda function here
-#         # For example, you might return a simple message
-#         return {
-#             'statusCode': 200,
-#             'body': 'This function was invoked directly.'
-#         }
-#     else:
-#         # Handle invocation through API Gateway here
-#         return awsgi.response(app, event, context, base64_content_types={"image/png"})
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=int(os.environ.get('PORT')))
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
