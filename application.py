@@ -2,6 +2,8 @@ from fastapi import FastAPI, Request, Response, HTTPException
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.staticfiles import StaticFiles
+import os
 from pydantic import BaseModel
 import os
 import glob
@@ -12,11 +14,16 @@ from spotify_to_yt import ConvertSpofity
 
 app = FastAPI()
 
-# Set up Jinja2 templates
-templates = Jinja2Templates(directory="templates")
+# Get the directory of the current file
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Serve static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Mount the static directory
+app.mount(
+    "/static", StaticFiles(directory=os.path.join(current_dir, "static")), name="static"
+)
+
+# Set up Jinja2 templates
+templates = Jinja2Templates(directory=os.path.join(current_dir, "templates"))
 
 global filename
 demucs_processor = DemucsProcessor()
