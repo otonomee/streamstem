@@ -1,17 +1,23 @@
+# Use an official Python runtime as a parent image
 FROM python:3.11-slim
 
+# Set the working directory in the container
 WORKDIR /app
 
+# Copy the requirements file into the container at /app
 COPY requirements.txt .
+
+# Install any dependencies specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the rest of the application code into the container at /app
 COPY . .
 
-# Expose the port that the application will run on
+# Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-# Set the default port to 8000 if not provided
+# Set environment variable
 ENV PORT 8000
 
-# Command to run the application
+# Define the command to run the application
 CMD ["gunicorn", "application:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:$PORT"]
