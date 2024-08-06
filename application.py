@@ -11,9 +11,10 @@ import shutil
 from downloader import Downloader
 from demucs_processor import DemucsProcessor
 from spotify_to_yt import ConvertSpofity
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 app = FastAPI()
-
+app.add_middleware(HTTPSRedirectMiddleware)
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -130,9 +131,4 @@ async def keep_alive():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(
-        "application:app",
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 8000)),
-        reload=False,
-    )
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)), debug=True)
