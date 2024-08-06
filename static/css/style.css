@@ -12,11 +12,11 @@ body {
   margin: 0;
   padding: 0;
   color: #ecfff8;
-  height: 100;
+  height: 100vw;
   animation: fadeIn 0.2s ease-in-out;
   /* background: currentColor; */
-  /* background-size: cover; */
-  /* overflow: auto; */
+  background-size: cover;
+  overflow: auto;
   /* overflow-y: clip; */
 }
 
@@ -118,8 +118,6 @@ input:focused {
   font-weight: 600;
   /* width: 604px; */
   display: flex;
-  margin-right: 388px;
-  margin-top: -35px;
 }
 
 .main-container {
@@ -131,9 +129,8 @@ input:focused {
 }
 
 .logo {
-  transform: scale(0.076);
-  margin-top: -59px;
-  margin-right: -473px;
+  transform: scale(0.1);
+  margin-top: -70px;
 }
 
 h1 {
@@ -330,19 +327,16 @@ select#fileType:hover {
   /* background: rgb(117 78 78 / 6%); */
   border: 1px solid rgba(174, 173, 240, 0.3);
   .link-icon {
-  color: #d8dcff;
-  position: absolute;
-  left: -2px;
-  -webkit-backdrop-filter: blur(10px); /* Add this line */
-  backdrop-filter: blur(10px); /* Add this line */
-  width: -moz-fit-content; /* Add this line */
-  width: fit-content;
+    color: #d8dcff;
+    position: absolute;
+    left: -2px;
+    -webkit-backdrop-filter: blur(10px); /* Add this line */
+    backdrop-filter: blur(10px); /* Add this line */
+    width: -moz-fit-content; /* Add this line */
+    width: fit-content;
   }
   width: -moz-fit-content; /* Add width: -moz-fit-content */
   width: fit-content;
-  padding: 35px;
-  border-radius: 16px;
-  box-shadow: 0px 1px 6px rgba(255,255,255,0.2);
 }
 
 .link-icon {

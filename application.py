@@ -13,18 +13,35 @@ from demucs_processor import DemucsProcessor
 from spotify_to_yt import ConvertSpofity
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
 
 app = FastAPI()
 # app.add_middleware(HTTPSRedirectMiddleware)
 # Add CORS middleware if needed
+
+
+class CSPMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        response.headers["Content-Security-Policy"] = "upgrade-insecure-requests"
+        return response
+
+
+app.add_middleware(CSPMiddleware)
+app.add_middleware(
+    TrustedHostMiddleware, allowed_hosts=["streamstem-60192b39b74f.herokuapp.com"]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust this as needed
+    allow_origins=["https://streamstem-60192b39b74f.herokuapp.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -135,10 +152,10 @@ def refresh_directories():
 
 @app.get("/flaskwebgui-keep-server-alive")
 async def keep_alive():
-    return "Server is alive"
+    return {"status": "Server is alive"}
 
 
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)), debug=True)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
