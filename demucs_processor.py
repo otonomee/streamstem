@@ -51,7 +51,7 @@ class DemucsProcessor:
         demucs_path = os.path.join(os.path.abspath("demucs"), "demucs")
 
         cmd = [
-            "python3",
+            "python",
             "-m",
             "demucs.separate",
             "-n",
@@ -59,7 +59,8 @@ class DemucsProcessor:
             "-o",
             "tracks",
             f"{filename}.{filetype}",
-            "-d cpu",
+            "-d", 
+	    "cpu"
         ]
 
         if filetype == "mp3":
