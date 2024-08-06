@@ -22,5 +22,10 @@ EXPOSE 8000
 # Set environment variable
 ENV PORT 8000
 
+# Create a shell script to run the application
+RUN echo '#!/bin/bash\n\
+exec gunicorn application:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT\n'\
+> /app/start.sh && chmod +x /app/start.sh
+
 # Define the command to run the application
-CMD ["gunicorn", "application:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:$PORT"]
+CMD ["/app/start.sh"]
