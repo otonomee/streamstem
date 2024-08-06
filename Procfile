@@ -1,2 +1,2 @@
-release: python setup_script.py
+release: python setup.py
 web: gunicorn application:app -k uvicorn.workers.UvicornWorker
