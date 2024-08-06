@@ -32,7 +32,8 @@ class CSPMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(CSPMiddleware)
 app.add_middleware(
-    TrustedHostMiddleware, allowed_hosts=["streamstem-60192b39b74f.herokuapp.com"]
+    TrustedHostMiddleware,
+    allowed_hosts=["https://streamstem-60192b39b74f.herokuapp.com"],
 )
 
 app.add_middleware(
