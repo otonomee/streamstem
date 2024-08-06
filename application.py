@@ -12,9 +12,18 @@ from downloader import Downloader
 from demucs_processor import DemucsProcessor
 from spotify_to_yt import ConvertSpofity
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 app.add_middleware(HTTPSRedirectMiddleware)
+# Add CORS middleware if needed
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this as needed
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
