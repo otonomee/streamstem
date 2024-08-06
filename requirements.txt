@@ -1,6 +1,4 @@
 setuptools==65.5.0
-torch==2.1.0
-torchaudio==2.1.0
 blinker==1.4
 certifi==2021.10.8
 charset-normalizer==2.0.12
