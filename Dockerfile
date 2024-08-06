@@ -7,8 +7,11 @@ WORKDIR /app
 # Copy the requirements file into the container at /app
 COPY requirements.txt .
 
-# Install any dependencies specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Install any dependencies specified in requirements.txt, 
+# then uninstall torch and torchaudio, and reinstall CPU-only versions
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip uninstall -y torch torchaudio && \
+    pip install --no-cache-dir torch==2.1.0+cpu torchaudio==2.1.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
 
 # Copy the rest of the application code into the container at /app
 COPY . .
