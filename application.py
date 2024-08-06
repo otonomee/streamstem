@@ -15,7 +15,7 @@ from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-app.add_middleware(HTTPSRedirectMiddleware)
+# app.add_middleware(HTTPSRedirectMiddleware)
 # Add CORS middleware if needed
 app.add_middleware(
     CORSMiddleware,
@@ -23,7 +23,8 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    
+)
+
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
