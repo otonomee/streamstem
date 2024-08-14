@@ -12,7 +12,14 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    git \
+    ffmpeg \
+    libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
+
+# Clone the repository and submodules
+RUN git clone https://github.com/your-username/your-repo.git . && \
+    git submodule update --init --recursive
 
 # Copy the requirements file into the container
 COPY requirements.txt .
@@ -21,6 +28,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt && \
     pip uninstall -y torch torchaudio && \
     pip install --no-cache-dir torch==2.1.0+cpu torchaudio==2.1.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+
+# Install Demucs
+RUN cd demucs && pip install -e . && cd ..
 
 # Copy the rest of the application code
 COPY . .

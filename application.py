@@ -6,6 +6,9 @@ from fastapi.staticfiles import StaticFiles
 import os
 from pydantic import BaseModel
 import os
+import sys
+
+sys.path.append(os.path.abspath("demucs"))
 import glob
 import shutil
 from downloader import Downloader
