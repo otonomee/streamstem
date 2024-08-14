@@ -24,23 +24,25 @@ app = FastAPI()
 # app.add_middleware(HTTPSRedirectMiddleware)
 
 
-@app.middleware("http")
-async def https_redirect(request, call_next):
-    if request.url.scheme == "http":
-        url = request.url.replace(scheme="https")
-        return RedirectResponse(url, status_code=301)
-    return await call_next(request)
+# @app.middleware("http")
+# async def https_redirect(request, call_next):
+#     if request.url.scheme == "http":
+#         url = request.url.replace(scheme="https")
+#         return RedirectResponse(url, status_code=301)
+#     return await call_next(request)
 
 
 # Add CORS middleware if needed
 
 
-# class CSPMiddleware(BaseHTTPMiddleware):
-#     async def dispatch(self, request, call_next):
-#         response = await call_next(request)
-#         response.headers["Content-Security-Policy"] = "upgrade-insecure-requests"
-#         return response
+class CSPMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        response.headers["Content-Security-Policy"] = "upgrade-insecure-requests"
+        return response
 
+
+app.add_middleware(CSPMiddleware)
 
 # app.add_middleware(CSPMiddleware)
 # app.add_middleware(
@@ -48,13 +50,13 @@ async def https_redirect(request, call_next):
 #     allowed_hosts=["https://streamstem-60192b39b74f.herokuapp.com"],
 # )
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["https://streamstem-60192b39b74f.herokuapp.com"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    # allow_origins=["https://streamstem-60192b39b74f.herokuapp.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
