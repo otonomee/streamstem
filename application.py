@@ -17,9 +17,21 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
+from starlette.datastructures import URL
+from starlette.responses import RedirectResponse
 
 app = FastAPI()
 app.add_middleware(HTTPSRedirectMiddleware)
+
+
+@app.middleware("http")
+async def https_redirect(request, call_next):
+    if request.url.scheme == "http":
+        url = request.url.replace(scheme="https")
+        return RedirectResponse(url, status_code=301)
+    return await call_next(request)
+
+
 # Add CORS middleware if needed
 
 
