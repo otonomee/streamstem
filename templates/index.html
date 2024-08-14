@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <!-- Basic Processing Form -->
     <div id="basicProcessing" class="processing-options">
       
-      <form id="myForm" class="mx-auto main-form" method="POST" action="{{ url_for('home'">
+      <form id="myForm" class="mx-auto main-form" method="POST" action="{{ url_for('home') }}">
         
        <label class="inputLabel" for="url">YouTube or Spotify Link
             </label>
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
       
       <div id="loadingGif" style="display:none;">
       <!-- Spinning Gif -->
-      <img id="spinnyGif" src="/static/spinny.gif') }}" alt="Loading..." style="height:63px;" />
+      <img id="spinnyGif" src="/static/spinny.gif" alt="Loading..." style="height:63px;" />
       
       <span class="status-message" style="margin-top:9px;">Extracting audio...</span>
     
