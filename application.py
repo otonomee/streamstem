@@ -25,6 +25,12 @@ from starlette.responses import RedirectResponse
 
 app = FastAPI()
 # app.add_middleware(HTTPSRedirectMiddleware)
+downloader = Downloader()
+
+
+class DownloadRequest(BaseModel):
+    url: str
+    filetype: str
 
 
 # @app.middleware("http")
@@ -100,16 +106,20 @@ async def delete(request: Request):
 
 @app.post("/download_video")
 async def download_audio(request: DownloadRequest):
-    input_url = request.url
-    if "spotify" in input_url:
-        url = ConvertSpofity(input_url).get_youtube_url()
+    filename = downloader.download_video(request.url, request.filetype)
+    if filename:
+        return {"status": "success", "filename": filename}
     else:
-        url = input_url
+        raise HTTPException(status_code=400, detail="Failed to download video")
 
-    if url:
-        filename = downloader.download_video(url, request.filetype)
-        print("filename", filename)
-        return {"status": "success", "filename": str(filename)}
+
+@app.get("/video_info")
+async def get_video_info(url: str):
+    info = downloader.get_video_info(url)
+    if info:
+        return {"status": "success", "info": info}
+    else:
+        raise HTTPException(status_code=400, detail="Failed to get video info")
 
 
 @app.post("/process_audio")
