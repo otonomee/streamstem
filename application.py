@@ -21,7 +21,7 @@ from starlette.datastructures import URL
 from starlette.responses import RedirectResponse
 
 app = FastAPI()
-app.add_middleware(HTTPSRedirectMiddleware)
+# app.add_middleware(HTTPSRedirectMiddleware)
 
 
 @app.middleware("http")
