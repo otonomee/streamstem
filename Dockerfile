@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone the repository and submodules
-RUN git clone https://github.com/your-username/your-repo.git . && \
+RUN git clone https://github.com/otonomee/streamstem.git . && \
     git submodule update --init --recursive
 
 # Copy the requirements file into the container
