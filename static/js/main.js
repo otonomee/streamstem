@@ -70,7 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
         filetype: filetype,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
       .then((data) => {
         if (data.status === "success") {
           const filename = data.filename;
@@ -80,7 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
           songName = filename.substring(0, filename.lastIndexOf("."));
           showSongName(filename);
 
-          fetch("/process_audio", {
+          if (data.proxyUsed) {
+            addMessage("Zyte proxy used successfully");
+          }
+
+          // Continue with audio processing...
+          return fetch("/process_audio", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -88,17 +98,37 @@ document.addEventListener("DOMContentLoaded", () => {
               filetype: filetype,
               numStems: numStems,
             }),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.message === "Finished") {
-                displayAudioFiles(data.filename);
-                showStepCompletion();
-              }
-            })
-            .catch((error) => console.error("Error:", error));
+          });
+        } else {
+          throw new Error(data.message || "Download failed");
         }
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.message === "Finished") {
+          displayAudioFiles(data.filename);
+          showStepCompletion();
+        } else {
+          throw new Error("Audio processing failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        addMessage(`Error: ${error.message}`);
+        showErrorState();
       });
+
+    function showErrorState() {
+      // Update UI to show error state
+      cancelBtn.textContent = "Try Again";
+      cancelBtn.removeEventListener("click", cancelDownload);
+      cancelBtn.addEventListener("click", () => location.reload());
+    }
 
     function displayAudioFiles(songName) {
       let directory = numStems == 6 ? "htdemucs_6s" : "htdemucs";

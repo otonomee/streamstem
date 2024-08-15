@@ -3,11 +3,16 @@ import random
 import time
 import logging
 from fake_useragent import UserAgent
+import requests
+from urllib.parse import urlencode
 
 
 class Downloader:
-    def __init__(self):
+    def __init__(self, zyte_api_key):
         self.ua = UserAgent()
+        self.zyte_api_key = "da91cf171873419d90bf6ae752409a57"
+        self.zyte_proxy_key = "f870f1fc51dc43848e44c2795ea1a154"
+        self.proxy_url = f"http://{self.zyte_proxy_key}:@proxy.crawlera.com:8011/"
 
     def get_ydl_opts(self, filetype):
         return {
@@ -37,7 +42,7 @@ class Downloader:
             "quiet": False,
             "no_warnings": False,
             "default_search": "auto",
-            # "source_address": "0.0.0.0",
+            "proxy": self.proxy_url,
         }
 
     def download_video(self, youtube_url, filetype):
@@ -75,3 +80,9 @@ class Downloader:
         except Exception as e:
             logging.error(f"Failed to get video info: {str(e)}")
             return None
+
+
+# Usage example:
+# downloader = Downloader(zyte_api_key="your_zyte_api_key_here")
+# filename = downloader.download_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "mp3")
+# video_info = downloader.get_video_info("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
