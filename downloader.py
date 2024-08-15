@@ -1,11 +1,15 @@
 import subprocess
 from fake_useragent import UserAgent
 
+zyte_proxy_key = "f870f1fc51dc43848e44c2795ea1a154"
+zyte_api_key = "da91cf171873419d90bf6ae752409a57"
+
 
 class Downloader:
-    def __init__(self, zyte_api_key):
+    def __init__(self):
+
         self.ua = UserAgent()
-        self.zyte_proxy = f"http://{zyte_api_key}:@proxy.crawlera.com:8011/"
+        self.zyte_proxy = f"http://{zyte_proxy_key}:@proxy.crawlera.com:8011/"
 
     def download_video(self, youtube_url, filetype):
         try:
