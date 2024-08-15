@@ -24,7 +24,7 @@ class Downloader:
                     "--proxy",
                     self.zyte_proxy,
                     "--user-agent",
-                    self.ua.random,
+                    # self.ua.random,
                     youtube_url,
                 ],
                 check=True,
@@ -46,7 +46,7 @@ class Downloader:
                     "--proxy",
                     self.zyte_proxy,
                     "--user-agent",
-                    self.ua.random,
+                    # self.ua.random,
                     youtube_url,
                 ]
             )
@@ -64,7 +64,7 @@ class Downloader:
                     "--proxy",
                     self.zyte_proxy,
                     "--user-agent",
-                    self.ua.random,
+                    # self.ua.random,
                     youtube_url,
                 ]
             )

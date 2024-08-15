@@ -21,3 +21,4 @@ soundfile
 musdb
 museval
 tqdm
+fake_useragent
