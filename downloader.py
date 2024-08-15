@@ -13,10 +13,10 @@ class Downloader:
     def __request_zyte_api(self, url):
         payload = {
             "url": url,
-            "browserHtml": True,
-            "httpResponseBody": True,
-            "httpResponseHeaders": True,
-            "javascript": True,
+            # "browserHtml": True,
+            # "httpResponseBody": True,
+            # "httpResponseHeaders": True,
+            # "javascript": True,
             "customHttpRequestHeaders": {
                 "User-Agent": self.ua.random,
             },
