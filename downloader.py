@@ -23,7 +23,7 @@ class Downloader:
                     "%(title)s.%(ext)s",
                     "--proxy",
                     self.zyte_proxy,
-                    "--user-agent",
+                    # "--user-agent",
                     # self.ua.random,
                     youtube_url,
                 ],
@@ -45,7 +45,7 @@ class Downloader:
                     "%(title)s.%(ext)s",
                     "--proxy",
                     self.zyte_proxy,
-                    "--user-agent",
+                    # "--user-agent",
                     # self.ua.random,
                     youtube_url,
                 ]
@@ -63,7 +63,7 @@ class Downloader:
                     "--dump-json",
                     "--proxy",
                     self.zyte_proxy,
-                    "--user-agent",
+                    # "--user-agent",
                     # self.ua.random,
                     youtube_url,
                 ]
