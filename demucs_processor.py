@@ -2,21 +2,21 @@ import io
 import select
 import subprocess as sp
 import sys
-
-sys.path.append("demucs")
+import os
 import shutil
 from typing import Dict, Tuple, Optional, IO
-import os
 
+sys.path.append("demucs")
 os.environ["PATH"] += os.pathsep + os.path.abspath("demucs")
-import os
-
 
 class DemucsProcessor:
+    def __init__(self, num_threads=4, segment_size=10):
+        self.num_threads = num_threads
+        self.segment_size = segment_size
+
     def process_audio(self, filename, filetype, num_stems):
         def copy_process_streams(process: sp.Popen):
             output = ""
-
             def raw(stream: Optional[IO[bytes]]) -> IO[bytes]:
                 assert stream is not None
                 if isinstance(stream, io.BufferedIOBase):
@@ -39,18 +39,16 @@ class DemucsProcessor:
                         fds.remove(fd)
                         continue
                     buf = raw_buf.decode()
-                    std.write(buf)  # write to server terminal
-                    output += buf  # store in string
+                    std.write(buf)
+                    output += buf
 
             return output
 
-        model = "htdemucs"
-        if num_stems == "6":
-            model = "htdemucs_6s"
-
+        model = "htdemucs" if num_stems != "6" else "htdemucs_6s"
         demucs_path = os.path.join(os.path.abspath("demucs"), "demucs")
 
-        cmd = ["sudo",
+        cmd = [
+            "sudo",
             "python3",
             "-m",
             "demucs.separate",
@@ -58,19 +56,21 @@ class DemucsProcessor:
             "-o", "tracks",
             f"{filename}.{filetype}",
             "-d", "cpu",
-            "-j", "6"  # number of threads
+            "-j", str(self.num_threads),
+            "--segment", str(self.segment_size),
+            "--overlap", "0.1"  # Reduce overlap for speed
         ]
-        
+
         if filetype == "mp3":
             cmd += ["--mp3", "--mp3-bitrate=320"]
         elif filetype == "flac":
             cmd += ["--flac"]
         else:
             print("Filetype error")
-        
+
         if num_stems == "2":
             cmd += ["--two-stems", "vocals"]
-        
+
         print("Going to separate the file:", f"{filename}.{filetype}")
         print("With command: ", " ".join(cmd))
         p = sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE)
@@ -80,22 +80,8 @@ class DemucsProcessor:
             print("Command failed, something went wrong.")
 
         filename_without_ext = os.path.splitext(filename)[0]
-
-        output_dir = f"tracks/htdemucs/{filename_without_ext}"
-        if model == "htdemucs_6s":
-            output_dir = f"tracks/htdemucs_6s/{filename_without_ext}"
-#https://open.spotify.com/track/7EF7xI1dSQj1dN1dP3YPPW?si=0b8643294f834b98
-        # Create the directory if it doesn't exist
+        output_dir = f"tracks/{model}/{filename_without_ext}"
         os.makedirs(output_dir, exist_ok=True)
-
         shutil.make_archive(f"STEMS-{filename_without_ext}", "zip", output_dir)
-
-        # # Delete the directory
-        # shutil.rmtree('tracks/htdemucs', ignore_errors=True)
-        # shutil.rmtree('tracks/htdemucs_6s', ignore_errors=True)
-
-        # # Recreate the directories
-        # os.makedirs('tracks/htdemucs', exist_ok=True)
-        # os.makedirs('tracks/htdemucs_6s', exist_ok=True)
 
         return output
