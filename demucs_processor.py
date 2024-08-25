@@ -54,13 +54,12 @@ class DemucsProcessor:
             "python",
             "-m",
             "demucs.separate",
-            "-n",
-            model,
-            "-o",
-            "tracks",
+            f"-n {model}",
+            "-o tracks",
+            
             f"{filename}.{filetype}",
-            "-d", 
-	    "cpu"
+            "-d cpu", 
+        "-j 8", # number of threads
         ]
 
         if filetype == "mp3":
