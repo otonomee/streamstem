@@ -48,8 +48,7 @@ class DemucsProcessor:
         demucs_path = os.path.join(os.path.abspath("demucs"), "demucs")
 
         cmd = [
-            "sudo",
-            "python3",
+            "python",
             "-m",
             "demucs.separate",
             "-n", model,
