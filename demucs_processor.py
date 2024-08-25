@@ -54,26 +54,24 @@ class DemucsProcessor:
             "python",
             "-m",
             "demucs.separate",
-            f"-n {model}",
-            "-o tracks",
-            
+            "-n", model,
+            "-o", "tracks",
             f"{filename}.{filetype}",
-            "-d cpu", 
-        "-j 8", # number of threads
+            "-d", "cpu",
+            "-j", "8"  # number of threads
         ]
-
+        
         if filetype == "mp3":
             cmd += ["--mp3", "--mp3-bitrate=320"]
         elif filetype == "flac":
             cmd += ["--flac"]
         else:
             print("Filetype error")
-
+        
         if num_stems == "2":
             cmd += ["--two-stems", "vocals"]
-
+        
         print("Going to separate the file:", f"{filename}.{filetype}")
-        print(cmd)
         print("With command: ", " ".join(cmd))
         p = sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE)
         output = copy_process_streams(p)
