@@ -10,7 +10,7 @@ sys.path.append("demucs")
 os.environ["PATH"] += os.pathsep + os.path.abspath("demucs")
 
 class DemucsProcessor:
-    def __init__(self, num_threads=4, segment_size=10):
+    def __init__(self, num_threads, segment_size):
         self.num_threads = num_threads
         self.segment_size = segment_size
 
