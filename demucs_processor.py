@@ -58,7 +58,7 @@ class DemucsProcessor:
             "-o", "tracks",
             f"{filename}.{filetype}",
             "-d", "cpu",
-            "-j", "8"  # number of threads
+            "-j", "4"  # number of threads
         ]
         
         if filetype == "mp3":
@@ -84,7 +84,7 @@ class DemucsProcessor:
         output_dir = f"tracks/htdemucs/{filename_without_ext}"
         if model == "htdemucs_6s":
             output_dir = f"tracks/htdemucs_6s/{filename_without_ext}"
-
+#https://open.spotify.com/track/7EF7xI1dSQj1dN1dP3YPPW?si=0b8643294f834b98
         # Create the directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
 
