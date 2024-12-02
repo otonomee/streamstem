@@ -21,7 +21,7 @@ This is a Flask web app using the following resources:
 1. Clone the repository: Open a terminal and clone the repository using the following command:
 
    ```
-   git clone https://github.com/otonomee/youtube-ai-stem-separator.git
+   git clone https://github.com/otonomee/streamstem.git
    ```
 
 2. Install dependencies: Navigate to the project directory and install the required dependencies
@@ -34,13 +34,13 @@ This is a Flask web app using the following resources:
 3. Run the web app: Start the web app by running the following command:
 
    ```
-   python main.py
+   python application.py
    ```
 
    Or Mac
 
    ```
-   sudo python3 main.py
+   sudo python3 application.py
    ```
 
 4. Access the web app: Open your web browser and go to
