@@ -78,7 +78,7 @@ app.mount(
 templates = Jinja2Templates(directory=os.path.join(current_dir, "templates"))
 
 global filename
-demucs_processor = DemucsProcessor()
+demucs_processor = DemucsProcessor(num_threads=4, segment_size=7)
 downloader = Downloader()
 
 
