@@ -7,7 +7,19 @@
 
 ## Active Blockers
 
-*No active blockers currently*
+### [PHASE-1] API Credentials Pending - Team Break ⏸️
+**Blocked By**: Exposed credentials need to be revoked, new credentials needed
+**Need**: User to obtain new Spotify Client ID/Secret and Google API Key
+**Reporter**: @Orchestrator
+**Date**: 2025-12-08
+**Status**: ACTIVE - Team on 30-minute break
+**Details**:
+- Old credentials exposed in git history (config.json)
+- User revoking old credentials and obtaining new ones
+- New credentials will be added to `.env` file
+- Cannot test API functionality (Spotify/YouTube) until resolved
+**Affects**: All team members (cannot test full workflow)
+**ETA**: ~30 minutes
 
 ---
 

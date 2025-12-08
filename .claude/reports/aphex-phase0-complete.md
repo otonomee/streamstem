@@ -79,7 +79,7 @@ model = "htdemucs" if num_stems != 6 else "htdemucs_6s"
 **Reason**: Pydantic passes integer, was comparing to string "6", always False
 **Result**: 6-stem mode now correctly loads htdemucs_6s model
 
-#### Fix 2: Two-Stem Mode (Line 70)
+#### Fix 2: Two-Stem Mode (Line 101)
 ```python
 # BEFORE (BROKEN)
 if num_stems == "2":
@@ -92,7 +92,7 @@ if num_stems == 2:
 **Reason**: Same type mismatch, integer vs string "2"
 **Result**: Two-stem mode now correctly adds --two-stems vocals flag
 
-#### Fix 3: Error Handling (Lines 79-106)
+#### Fix 3: Error Handling (Lines 110-135)
 **Before**:
 ```python
 if p.returncode != 0:

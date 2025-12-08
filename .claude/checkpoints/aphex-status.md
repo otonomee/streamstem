@@ -20,17 +20,28 @@
 
 **Changes Made to demucs_processor.py**:
 
-1. Line 47 - Fixed model selection logic:
+1. Lines 17-32 - Added type hints and comprehensive docstring:
+   - Method signature now includes type hints for all parameters
+   - Docstring documents args, returns, and exceptions
+   - Improves code maintainability and IDE support
+
+2. Lines 33-47 - Added input validation:
+   - Converts string num_stems to int (backward compatibility)
+   - Validates num_stems is 2, 4, or 6
+   - Validates filetype is mp3, wav, or flac
+   - Raises ValueError with clear messages for invalid inputs
+
+3. Line 78 - Fixed model selection logic:
    - Before: `model = "htdemucs" if num_stems != "6" else "htdemucs_6s"`
    - After: `model = "htdemucs" if num_stems != 6 else "htdemucs_6s"`
    - Impact: 6-stem mode now correctly loads htdemucs_6s model
 
-2. Line 70 - Fixed two-stem mode detection:
+4. Line 101 - Fixed two-stem mode detection:
    - Before: `if num_stems == "2":`
    - After: `if num_stems == 2:`
    - Impact: Two-stem mode now correctly adds --two-stems vocals flag
 
-3. Lines 79-106 - Added comprehensive error handling:
+5. Lines 110-135 - Added comprehensive error handling:
    - Process failure now raises RuntimeError with detailed error message
    - Validates output directory exists after processing
    - Validates output directory contains stem files
