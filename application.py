@@ -33,25 +33,25 @@ class DownloadRequest(BaseModel):
     filetype: str
 
 
-# @app.middleware("http")
-# async def https_redirect(request, call_next):
-#     if request.url.scheme == "http":
-#         url = request.url.replace(scheme="https")
-#         return RedirectResponse(url, status_code=301)
-#     return await call_next(request)
+#@app.middleware("https")
+#async def https_redirect(request, call_next):
+#    if request.url.scheme == "http":
+#        url = request.url.replace(scheme="https")
+#        return RedirectResponse(url, status_code=301)
+#    return await call_next(request)
 
 
 # Add CORS middleware if needed
 
 
-class CSPMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
-        response = await call_next(request)
-        response.headers["Content-Security-Policy"] = "upgrade-insecure-requests"
-        return response
+#class CSPMiddleware(BaseHTTPMiddleware):
+#    async def dispatch(self, request, call_next):
+#        response = await call_next(request)
+#        response.headers["Content-Security-Policy"] = "upgrade-insecure-requests"
+#        return response
 
 
-app.add_middleware(CSPMiddleware)
+#app.add_middleware(CSPMiddleware)
 
 # app.add_middleware(CSPMiddleware)
 # app.add_middleware(
@@ -59,13 +59,13 @@ app.add_middleware(CSPMiddleware)
 #     allowed_hosts=["https://streamstem-60192b39b74f.herokuapp.com"],
 # )
 
-app.add_middleware(
-    CORSMiddleware,
+#app.add_middleware(
+#    CORSMiddleware,
     # allow_origins=["https://streamstem-60192b39b74f.herokuapp.com"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+#    allow_credentials=True,
+#    allow_methods=["*"],
+#    allow_headers=["*"],
+#)
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -186,4 +186,4 @@ async def keep_alive():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8001)))

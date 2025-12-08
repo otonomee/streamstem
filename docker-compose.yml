@@ -1,0 +1,27 @@
+# Simple compose setup for Streamstem
+version: "3.9"
+
+services:
+  web:
+    build: .
+    image: streamstem:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+    volumes:
+      - ./separated:/app/separated
+      - ./tracks:/app/tracks
+    restart: unless-stopped
+
+  # Optional: run CLI scripts inside the same image
+  cli:
+    image: streamstem:latest
+    profiles: ["cli"]
+    entrypoint: ["/bin/bash"]
+    working_dir: /app
+    volumes:
+      - ./separated:/app/separated
+      - ./tracks:/app/tracks
+      - ./:/app
+

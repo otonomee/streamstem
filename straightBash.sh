@@ -43,11 +43,45 @@ if [ -z "$youtube_url" ]; then
     exit 1
 fi
 
-output_filename=$(youtube-dl --get-filename -o "%(title)s.mp3" "$youtube_url")
+# Prefer yt-dlp; bail if missing
+YT_DLP_BIN="${YT_DLP_BIN:-yt-dlp}"
+if ! command -v "$YT_DLP_BIN" >/dev/null 2>&1; then
+    echo "Error: yt-dlp is required but not found in PATH (tried '$YT_DLP_BIN')."
+    echo "Install with: pipx install yt-dlp   or   brew install yt-dlp"
+    exit 1
+fi
+
+# Use explicit python path if provided, else default python3
+PYTHON_PATH="${PYTHON_PATH:-/opt/homebrew/Caskroom/miniconda/base/bin/python}"
+
+# Ensure demucs is available in this Python interpreter
+if ! "$PYTHON_PATH" - <<'PY' >/dev/null 2>&1
+import importlib.util
+exit(0 if importlib.util.find_spec("demucs") else 1)
+PY
+then
+    echo "Error: demucs is not installed for $("$PYTHON_PATH" -V)."
+    echo "Install with: $PYTHON_PATH -m pip install -U demucs"
+    exit 1
+fi
+
+# Get filename (force mp3 extension to match extract-audio output)
+output_filename=$("$YT_DLP_BIN" --get-filename -o "%(title)s.mp3" "$youtube_url")
 echo "Output filename: $output_filename"  # Debug print
 
-# Download the video and extract audio with youtube-dl
-youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.mp3" $youtube_url
+# Download the video and extract audio
+"$YT_DLP_BIN" --extract-audio --audio-format mp3 -o "%(title)s.mp3" "$youtube_url"
 
-# Call your Python script with the downloaded MP3 file
-python3 -m demucs --mp3 "$output_filename"
+# Separate stems with demucs
+"$PYTHON_PATH" -m demucs --mp3 "$output_filename"
+
+# Rename stems to include directory name (matches youtube-to-audio-stems.sh behavior)
+stem_dir="separated/htdemucs/${output_filename%.mp3}"
+if [ -d "$stem_dir" ]; then
+    dir_name=$(basename "$stem_dir")
+    for stem in "$stem_dir"/*.mp3; do
+        stem_name=$(basename "$stem")
+        mv "$stem" "$stem_dir/$dir_name - $stem_name"
+    done
+    echo "Stems renamed in: $stem_dir"
+fi
