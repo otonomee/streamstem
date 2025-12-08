@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN python -m pip install --upgrade pip setuptools wheel && \
     python -m pip install -r requirements.txt && \
-    python -m pip install torch==2.1.0+cpu torchaudio==2.1.0+cpu -f https://download.pytorch.org/whl/torch_stable.html && \
+    python -m pip install torch==2.1.2 torchaudio==2.1.2 -f https://download.pytorch.org/whl/torch_stable.html && \
     python -m pip install demucs
 
 # App code

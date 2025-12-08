@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let modalText = document.createElement("p");
 
     // Set the content of the modal
-    modalText.textContent = mesdsdddddDDDdsage;
+    modalText.textContent = message;
 
     // Set the classes for styling
     modal.className = "modal";

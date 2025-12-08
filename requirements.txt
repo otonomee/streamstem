@@ -1,24 +1,43 @@
+# Core dependencies
 setuptools==65.5.0
 blinker==1.4
 certifi==2021.10.8
 charset-normalizer==2.0.12
 click==8.1.3
-fastapi==0.100.0
 idna==2.10
 itsdangerous==2.1.2
-Jinja2==3.1.2
 MarkupSafe==2.1.1
-requests==2.31.0
 urllib3==1.26.17
 Werkzeug==2.2.3
-yt-dlp
-fake-useragent==1.1.1
+
+# FastAPI and web server
+fastapi==0.100.0
 uvicorn==0.23.0
 gunicorn==20.1.0
+Jinja2==3.1.2
 python-multipart==0.0.6
+
+# HTTP requests
+requests==2.31.0
+
+# YouTube download
+yt-dlp
+fake-useragent==1.1.1
+
+# Audio processing dependencies
 numpy
 soundfile
 musdb
 museval
 tqdm
-fake_useragent
+
+# PyTorch (required for Demucs)
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# Demucs stem separation
+# Note: Install from submodule or via: pip install -U demucs
+# demucs>=4.0.0
+
+# Environment variables (optional but recommended)
+python-dotenv>=1.0.0

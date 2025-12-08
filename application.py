@@ -2,30 +2,30 @@ from fastapi import FastAPI, Request, Response, HTTPException
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.staticfiles import StaticFiles
-import os
 from pydantic import BaseModel
 import os
 import sys
-
-sys.path.append(os.path.abspath("demucs"))
 import glob
 import shutil
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+sys.path.append(os.path.abspath("demucs"))
+
 from downloader import Downloader
 from demucs_processor import DemucsProcessor
 from spotify_to_yt import ConvertSpofity
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import Response
 from starlette.datastructures import URL
 from starlette.responses import RedirectResponse
 
 app = FastAPI()
 # app.add_middleware(HTTPSRedirectMiddleware)
-downloader = Downloader()
 
 
 class DownloadRequest(BaseModel):
@@ -77,14 +77,9 @@ app.mount(
 # Set up Jinja2 templates
 templates = Jinja2Templates(directory=os.path.join(current_dir, "templates"))
 
-global filename
+# Initialize processors
 demucs_processor = DemucsProcessor(num_threads=4, segment_size=7)
 downloader = Downloader()
-
-
-class DownloadRequest(BaseModel):
-    url: str
-    filetype: str
 
 
 class ProcessRequest(BaseModel):
@@ -150,11 +145,44 @@ async def serve_audio(stem_type: str, songname: str):
 
 @app.get("/tracks/{stem_type}/{songname}/{filename}")
 async def serve_file(stem_type: str, songname: str, filename: str):
-    file_path = f"tracks/{stem_type}/{songname}/{filename}"
-    if os.path.exists(file_path):
-        return FileResponse(file_path)
-    else:
+    """
+    Serve audio stem files with path traversal protection.
+
+    Args:
+        stem_type: Model type (htdemucs or htdemucs_6s)
+        songname: Name of the song
+        filename: Name of the file
+
+    Raises:
+        HTTPException: If path is invalid or file not found
+    """
+    # Validate stem_type to prevent directory traversal
+    allowed_stem_types = ["htdemucs", "htdemucs_6s"]
+    if stem_type not in allowed_stem_types:
+        raise HTTPException(status_code=400, detail="Invalid stem type")
+
+    # Sanitize path components to prevent directory traversal
+    # Remove any path separators, null bytes, and parent directory references
+    safe_stem_type = stem_type.replace("..", "").replace("/", "").replace("\\", "").replace("\0", "")
+    safe_songname = songname.replace("..", "").replace("/", "").replace("\\", "").replace("\0", "")
+    safe_filename = filename.replace("..", "").replace("/", "").replace("\\", "").replace("\0", "")
+
+    # Construct path
+    file_path = os.path.join("tracks", safe_stem_type, safe_songname, safe_filename)
+
+    # Resolve to absolute path and verify it's within tracks directory
+    tracks_dir = os.path.abspath("tracks")
+    absolute_path = os.path.abspath(file_path)
+
+    # Ensure the resolved path is within tracks directory (prevent path traversal)
+    if not absolute_path.startswith(tracks_dir):
+        raise HTTPException(status_code=403, detail="Access denied")
+
+    # Check if file exists
+    if not os.path.exists(absolute_path) or not os.path.isfile(absolute_path):
         raise HTTPException(status_code=404, detail="File not found")
+
+    return FileResponse(absolute_path)
 
 
 @app.get("/login")

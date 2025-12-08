@@ -16,35 +16,48 @@ This is a Flask web app using the following resources:
 
 ## Installation
 
-0. Install Python
+0. Install Python 3.8 or higher
 
 1. Clone the repository: Open a terminal and clone the repository using the following command:
 
-   ```
+   ```bash
    git clone https://github.com/otonomee/streamstem.git
+   cd streamstem
    ```
 
-2. Install dependencies: Navigate to the project directory and install the required dependencies
-   by running the following command:
+2. Install dependencies: Navigate to the project directory and install the required dependencies:
 
-   ```
+   ```bash
    pip install -r requirements.txt
    ```
 
-3. Run the web app: Start the web app by running the following command:
+3. **Set up environment variables** (Required for Spotify URL conversion):
 
+   a. Copy the example environment file:
+   ```bash
+   cp .env.example .env
    ```
+
+   b. Edit `.env` and add your API credentials:
+   ```
+   SPOTIFY_CLIENT_ID=your_spotify_client_id_here
+   SPOTIFY_CLIENT_SECRET=your_spotify_client_secret_here
+   GOOGLE_API_KEY=your_google_api_key_here
+   ```
+
+   **How to get API credentials:**
+   - **Spotify API**: Register at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) to get Client ID and Secret
+   - **Google YouTube API**: Create a project at [Google Cloud Console](https://console.cloud.google.com/apis/credentials) and enable YouTube Data API v3
+
+   **Note**: API credentials are only required if you want to use Spotify URLs. YouTube URLs work without any API keys.
+
+4. Run the web app: Start the web app by running the following command:
+
+   ```bash
    python application.py
    ```
 
-   Or Mac
-
-   ```
-   sudo python3 application.py
-   ```
-
-4. Access the web app: Open your web browser and go to
-   [http://127.0.0.1:5000](http://127.0.0.1:5000:5000) to access the web app.
+5. Access the web app: Open your web browser and go to [http://localhost:8001](http://localhost:8001) to access the web app.
 
 ## Usage
 

@@ -392,11 +392,6 @@ select#fileType:hover {
   transition: 0.3s;
 }
 
-* {
-  /* box-sizing: border-box; */
-  /* outline: none; */
-}
-
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont;
 }
